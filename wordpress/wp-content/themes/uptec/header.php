@@ -101,6 +101,7 @@ if (is_admin_bar_showing()) $html_class .= ' admin-mode';
 
 ?>
 <body <?php body_class($background_color_css); echo $body_attr; ?>>
+	
 	<?php echo uncode_remove_p_tag( $background_div ) ; ?>
 	<?php do_action( 'before' );
 	

@@ -21,12 +21,15 @@ wordpress/wp-content/plugins/*
 wordpress/wp-content/themes/*
 
 !wordpress/wp-content/plugins/uncode-*
+wordpress/wp-content/plugins/uncode-*/node_modules
 !wordpress/wp-content/plugins/wpml-string-translation
+!wordpress/wp-content/plugins/wpml-string-translation/*
 !wordpress/wp-content/plugins/sitepress-multilingual-cms
 
 
 # WordPress themes (uncomment if you don't want to track themes)
 !wordpress/wp-content/themes/uptec
+!wordpress/wp-content/themes/uptec/dist
 !wordpress/wp-content/themes/uncode
 
 
