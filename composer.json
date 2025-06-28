@@ -1,5 +1,5 @@
 {
-    "name": "miew/uptec",
+    "name": "acme/brilliant-wordpress-site",
     "authors": [
         {
             "name": "dev miew"
@@ -38,7 +38,7 @@
         "wpackagist-plugin/cookie-law-info": "3.2.8",
         "wpackagist-plugin/tiny-compress-images": "3.5.1",
         "wpackagist-plugin/wordfence": "8.0.5",
-        "wpackagist-plugin/dduplicate-post": "4.5"
+        "wpackagist-plugin/duplicate-post": "4.5"
     },
     "extra": {
         "installer-paths": {

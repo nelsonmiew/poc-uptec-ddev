@@ -26,7 +26,6 @@ wordpress/wp-content/themes/*
 
 
 # WordPress themes (uncomment if you don't want to track themes)
-wordpress/wp-content/themes/
 !wordpress/wp-content/themes/uptec
 !wordpress/wp-content/themes/uncode
 

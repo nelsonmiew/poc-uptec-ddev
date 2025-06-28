@@ -1,0 +1,7 @@
+/***************** ADMIN *****************/
+#wpbakery_content .vc_element-icon.vc-miew-icon, 
+.vc_ui-panel-content-container .vc_element-icon.vc-miew-icon{
+	background-image: url('../img/elem/vc-icon.png') !important;
+    background-position: center !important;
+	background-size: contain !important;
+}

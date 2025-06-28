@@ -1,4 +1,4 @@
-name: uptec
+name: uptec-ddev
 type: wordpress
 docroot: wordpress
 php_version: "8.3"

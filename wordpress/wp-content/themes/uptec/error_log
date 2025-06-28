@@ -1,0 +1,20 @@
+[15-Mar-2025 21:45:16 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/uptec/public_html/wp-content/themes/uptec/index.php:15
+Stack trace:
+#0 {main}
+  thrown in /home/uptec/public_html/wp-content/themes/uptec/index.php on line 15
+[30-Mar-2025 09:30:14 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/uptec/public_html/wp-content/themes/uptec/index.php:15
+Stack trace:
+#0 {main}
+  thrown in /home/uptec/public_html/wp-content/themes/uptec/index.php on line 15
+[10-May-2025 16:09:37 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/uptec/public_html/wp-content/themes/uptec/index.php:15
+Stack trace:
+#0 {main}
+  thrown in /home/uptec/public_html/wp-content/themes/uptec/index.php on line 15
+[24-May-2025 11:40:31 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/uptec/public_html/wp-content/themes/uptec/index.php:15
+Stack trace:
+#0 {main}
+  thrown in /home/uptec/public_html/wp-content/themes/uptec/index.php on line 15
+[06-Jun-2025 05:29:12 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/uptec/public_html/wp-content/themes/uptec/index.php:15
+Stack trace:
+#0 {main}
+  thrown in /home/uptec/public_html/wp-content/themes/uptec/index.php on line 15

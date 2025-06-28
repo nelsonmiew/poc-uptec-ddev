@@ -1,0 +1,4 @@
+[27-Sep-2023 16:12:36 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function add_action() in /home/uptec/public_html/wp-content/themes/uptec/functions/ajax.php:14
+Stack trace:
+#0 {main}
+  thrown in /home/uptec/public_html/wp-content/themes/uptec/functions/ajax.php on line 14
