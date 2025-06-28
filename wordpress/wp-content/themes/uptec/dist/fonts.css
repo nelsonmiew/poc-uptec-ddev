@@ -1,0 +1,56 @@
+@font-face {
+    font-family: 'FoundryMonoline';
+    src: url('../fonts/foundry/FoundryMonoline-Light.eot');
+    src: url('../fonts/foundry/FoundryMonoline-Light.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/foundry/FoundryMonoline-Light.woff2') format('woff2'),
+        url('../fonts/foundry/FoundryMonoline-Light.woff') format('woff'),
+        url('../fonts/foundry/FoundryMonoline-Light.ttf') format('truetype'),
+        url('../fonts/foundry/FoundryMonoline-Light.svg#FoundryMonoline-Light') format('svg');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'FoundryMonoline';
+    src: url('../fonts/foundry/FoundryMonoline-Regular.eot');
+    src: url('../fonts/foundry/FoundryMonoline-Regular.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/foundry/FoundryMonoline-Regular.woff2') format('woff2'),
+        url('../fonts/foundry/FoundryMonoline-Regular.woff') format('woff'),
+        url('../fonts/foundry/FoundryMonoline-Regular.ttf') format('truetype'),
+        url('../fonts/foundry/FoundryMonoline-Regular.svg#FoundryMonoline-Regular') format('svg');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'FoundryMonoline';
+    src: url('../fonts/foundry/FoundryMonoline-Medium.eot');
+    src: url('../fonts/foundry/FoundryMonoline-Medium.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/foundry/FoundryMonoline-Medium.woff2') format('woff2'),
+        url('../fonts/foundry/FoundryMonoline-Medium.woff') format('woff'),
+        url('../fonts/foundry/FoundryMonoline-Medium.ttf') format('truetype'),
+        url('../fonts/foundry/FoundryMonoline-Medium.svg#FoundryMonoline-Medium') format('svg');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'FoundryMonoline';
+    src: url('../fonts/foundry/FoundryMonoline-Bold.eot');
+    src: url('../fonts/foundry/FoundryMonoline-Bold.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/foundry/FoundryMonoline-Bold.woff2') format('woff2'),
+        url('../fonts/foundry/FoundryMonoline-Bold.woff') format('woff'),
+        url('../fonts/foundry/FoundryMonoline-Bold.ttf') format('truetype'),
+        url('../fonts/foundry/FoundryMonoline-Bold.svg#FoundryMonoline-Bold') format('svg');
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'FoundryMonoline';
+    src: url('../fonts/foundry/FoundryMonoline-ExtraBold.eot');
+    src: url('../fonts/foundry/FoundryMonoline-ExtraBold.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/foundry/FoundryMonoline-ExtraBold.woff2') format('woff2'),
+        url('../fonts/foundry/FoundryMonoline-ExtraBold.woff') format('woff'),
+        url('../fonts/foundry/FoundryMonoline-ExtraBold.ttf') format('truetype'),
+        url('../fonts/foundry/FoundryMonoline-ExtraBold.svg#FoundryMonoline-ExtraBold') format('svg');
+    font-weight: 900;
+    font-style: normal;
+}
+

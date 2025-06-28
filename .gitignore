@@ -25,6 +25,7 @@ wordpress/wp-content/plugins/uncode-*/node_modules
 !wordpress/wp-content/plugins/wpml-string-translation
 !wordpress/wp-content/plugins/wpml-string-translation/*
 !wordpress/wp-content/plugins/sitepress-multilingual-cms
+!wordpress/wp-content/plugins/sitepress-multilingual-cms/dist/
 
 
 # WordPress themes (uncomment if you don't want to track themes)
@@ -122,7 +123,7 @@ yarn-error.log
 
 # Build artifacts
 build/
-dist/
+#dist/
 *.min.js
 *.min.css
 
