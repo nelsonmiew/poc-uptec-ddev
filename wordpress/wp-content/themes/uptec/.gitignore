@@ -1,0 +1,3 @@
+dist/*
+!dist/**/*.min.js
+!dist/**/*.min.js
