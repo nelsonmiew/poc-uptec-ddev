@@ -85,6 +85,16 @@ vc_map(array(
 				'' => 'yes'
 			) ,
 		) ,
+		array(
+			"type" => 'dropdown',
+			"heading" => esc_html__("Thickness", 'uncode-core') ,
+			"param_name" => "style",
+			"description" => esc_html__("Set the thickness variation.", 'uncode-core') ,
+			"value" => array(
+				esc_html__('Default', 'uncode-core') => '',
+				esc_html__('Thicker', 'uncode-core') => 'variant',
+			) ,
+		) ,
 		$add_css_animation,
 		$add_animation_speed,
 		$add_animation_delay,

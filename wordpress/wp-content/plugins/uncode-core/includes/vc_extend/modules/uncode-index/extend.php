@@ -861,7 +861,7 @@ class UncodeLoopQueryBuilder extends VcLoopQueryBuilder
 	}
 
 	public function get_default_wc_order( $args ) {
-		if ( is_search() ) {
+		if ( is_search() && ! isset( $_GET['orderby'] ) ) {
 			$orderby = 'relevance';
 		} else if ( isset( $_GET['orderby'] ) ) {
 			$orderby_value = wc_clean( (string) wp_unslash( $_GET['orderby'] ) );

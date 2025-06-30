@@ -933,27 +933,27 @@ function uncode_page_options()
 			) ,
 			array(
 				'value' => 'top-t-bottom',
-				'label' => esc_html__('Top to bottom', 'uncode-core') ,
+				'label' => esc_html__('Top to Bottom', 'uncode-core') ,
 			) ,
 			array(
 				'value' => 'left-t-right',
-				'label' => esc_html__('Left to right', 'uncode-core') ,
+				'label' => esc_html__('Left to Right', 'uncode-core') ,
 			) ,
 			array(
 				'value' => 'right-t-left',
-				'label' => esc_html__('Right to left', 'uncode-core') ,
+				'label' => esc_html__('Right to Left', 'uncode-core') ,
 			) ,
 			array(
 				'value' => 'bottom-t-top',
-				'label' => esc_html__('Bottom to top', 'uncode-core') ,
+				'label' => esc_html__('Bottom to Top', 'uncode-core') ,
 			) ,
 			array(
 				'value' => 'zoom-in',
-				'label' => esc_html__('Zoom in', 'uncode-core') ,
+				'label' => esc_html__('Zoom In', 'uncode-core') ,
 			),
 			array(
 				'value' => 'zoom-out',
-				'label' => esc_html__('Zoom out', 'uncode-core') ,
+				'label' => esc_html__('Zoom Out', 'uncode-core') ,
 			),
 			array(
 				'value' => 'alpha-anim',
@@ -2215,7 +2215,7 @@ function uncode_page_options()
 
 	$specific_smooth_scroll = array(
 		'id' => '_uncode_specific_smooth_scroll',
-		'label' => esc_html__('Smooth Scroll', 'uncode-core') ,
+		'label' => esc_html__('SmoothScroll', 'uncode-core') ,
 		'desc' => esc_html__('Enable this option to create a smoother scrolling experience on your page.','uncode-core'),
 		'type' => 'select',
 		'operator' => 'and',

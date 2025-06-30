@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $filter_type_options = array(
 	esc_html__('Taxonomy', 'uncode-core') => '',
+	esc_html__('Custom Field', 'uncode-core')   => 'custom_field',
 	esc_html__('Search', 'uncode-core')   => 'search',
 	esc_html__('Date', 'uncode-core')     => 'date',
 	esc_html__('Author', 'uncode-core')   => 'author',
@@ -79,6 +80,16 @@ $first_params = array(
 		)
 	) ,
 	array(
+		"type" => 'textfield',
+		"heading" => esc_html__("Custom field", 'uncode-core') ,
+		"param_name" => "custom_field",
+		"description" => esc_html__("Select the custom field.", 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'filter_type',
+			'value' => 'custom_field',
+		)
+	) ,
+	array(
 		"type" => 'dropdown',
 		"heading" => esc_html__("Type", 'uncode-core') ,
 		"param_name" => "type",
@@ -95,6 +106,7 @@ $first_params = array(
 			'element' => 'filter_type',
 			'value' => array(
 				'',
+				'custom_field',
 				'author',
 				'date',
 				'product_price',
@@ -133,6 +145,7 @@ $first_params = array(
 			'element' => 'filter_type',
 			'value' => array(
 				'',
+				'custom_field',
 				'author',
 				'date',
 				'product_price',
@@ -181,6 +194,7 @@ $first_params = array(
 			'element' => 'filter_type',
 			'value' => array(
 				'',
+				'custom_field',
 				'author',
 				'date',
 				'product_price',
@@ -201,6 +215,7 @@ $first_params = array(
 			'element' => 'filter_type',
 			'value' => array(
 				'',
+				'custom_field',
 				'product_status',
 				'product_ratings',
 			),
@@ -275,6 +290,23 @@ $second_params = array(
 	) ,
 	array(
 		"type" => 'dropdown',
+		"heading" => esc_html__("Sort type", 'uncode-core') ,
+		"param_name" => "sort_type",
+		"description" => esc_html__("Select how to sort retrieved terms.", 'uncode-core') ,
+		"value" => array(
+			esc_html__('Default', 'uncode-core') => '',
+			esc_html__('Numeric', 'uncode-core') => 'numeric',
+			esc_html__('Date', 'uncode-core')    => 'date',
+		),
+		'dependency' => array(
+			'element' => 'filter_type',
+			'value' => array(
+				'custom_field',
+			),
+		)
+	) ,
+	array(
+		"type" => 'dropdown',
 		"heading" => esc_html__("Sort order", 'uncode-core') ,
 		"param_name" => "sort_by",
 		"description" => esc_html__("Designates the ascending or descending order.", 'uncode-core') ,
@@ -286,6 +318,7 @@ $second_params = array(
 			'element' => 'filter_type',
 			'value' => array(
 				'',
+				'custom_field',
 				'author',
 			),
 		)
@@ -340,6 +373,21 @@ $second_params = array(
 	$add_widget_icon,
 	$add_widget_style_no_separator,
 	$add_widget_style_title_typo,
+	array(
+		"type" => 'dropdown',
+		"heading" => esc_html__("Dropdown Style", 'uncode-core') ,
+		"param_name" => "dropdown_style",
+		"description" => esc_html__("Specify the style of the dropdowns.", 'uncode-core') ,
+		"value" => array(
+			esc_html__('Default', 'uncode-core')  => '',
+			esc_html__('Large', 'uncode-core') => 'large',
+		),
+		'group' => esc_html__('Style', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'type',
+			'value' => 'select',
+		)
+	) ,
 	array(
 		"type" => 'checkbox',
 		"heading" => esc_html__("Desktop", 'uncode-core') ,

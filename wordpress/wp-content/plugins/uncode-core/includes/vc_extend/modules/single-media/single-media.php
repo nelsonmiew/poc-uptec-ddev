@@ -629,9 +629,10 @@ $single_media_params = array(
 		"type" => 'dropdown',
 		"heading" => esc_html__("Image animation", 'uncode-core') ,
 		"param_name" => "media_image_anim",
-		"description" => esc_html__("Activate this to animate the image on mouse over.", 'uncode-core') ,
+		"description" => esc_html__("Enable this option to define the type of image animation on mouse hover or scroll.", 'uncode-core') ,
 		"value" => array(
-			esc_html__('Animated', 'uncode-core') => 'yes',
+			esc_html__('Hover', 'uncode-core') => 'yes',
+			esc_html__('Scroll', 'uncode-core') => 'scroll',
 			esc_html__('Static', 'uncode-core') => 'no',
 		) ,
 		'dependency' => array(
@@ -652,6 +653,37 @@ $single_media_params = array(
 		'dependency' => array(
 			'element' => 'media_image_anim',
 			'value' => array('yes'),
+		)
+	) ,
+	array(
+		"type" => 'dropdown',
+		"heading" => esc_html__("Image animation on scroll", 'uncode-core') ,
+		"param_name" => "media_image_scroll",
+		"description" => esc_html__("Define the effect of the image animations on scroll.", 'uncode-core') ,
+		"value" => array(
+			esc_html__('Parallax', 'uncode-core') => 'parallax',
+			esc_html__('Zoom', 'uncode-core') => 'zoom',
+			esc_html__('Parallax and Zoom', 'uncode-core') => 'both',
+		) ,
+		"group" => esc_html__("Advanced", 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'media_image_anim',
+			'value' => array('scroll'),
+		)
+	) ,
+	array(
+		"type" => "type_numeric_slider",
+		"heading" => esc_html__("Scroll animation value", 'uncode-core') ,
+		"param_name" => "media_image_scroll_val",
+		"min" => 1,
+		"max" => 10,
+		"step" => 1,
+		"value" => 5,
+		"description" => esc_html__("Define the scroll animation value.", 'uncode-core') ,
+		"group" => esc_html__("Advanced", 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'media_image_scroll',
+			'not_empty' => true,
 		)
 	) ,
 	array(
@@ -974,11 +1006,49 @@ $single_media_params = array(
 		) ,
 		'group' => esc_html__('Advanced', 'uncode-core') ,
 	) ,
-	$add_css_animation_w_parallax,
+	$add_css_animation_w_mask,
 	$add_animation_speed,
 	$add_animation_delay,
 	$add_parallax_options,
 	$add_parallax_centered_options,
+	$add_animation_easing,
+	array(
+		"type" => "dropdown",
+		"heading" => esc_html__("Animation Direction", 'uncode-core') ,
+		"description" => esc_html__("Define the animation direction.", 'uncode-core') ,
+		"param_name" => "mask_direction",
+		"group" => esc_html__("Animation", 'uncode-core') ,
+		"value" => array(
+			esc_html__('Top to Bottom', 'uncode-core') => '',
+			esc_html__('Bottom to Top', 'uncode-core') => 'bottom-t-top',
+		) ,
+		'dependency' => array(
+			'element' => 'css_animation',
+			'value' => 'mask' ,
+		) ,
+	) ,
+	array(
+		"type" => "dropdown",
+		"heading" => esc_html__("Animation background", 'uncode-core') ,
+		"description" => esc_html__("Defines whether to activate the animation for the colored background as well and specifies its delay.", 'uncode-core') ,
+		"param_name" => "bg_delay",
+		"group" => esc_html__("Animation", 'uncode-core') ,
+		"value" => array(
+			esc_html__('No', 'uncode-core') => '',
+			esc_html__('0.25x Delay', 'uncode-core') => '0.25',
+			esc_html__('0.5x Delay', 'uncode-core') => '0.5',
+			esc_html__('0.75x Delay', 'uncode-core') => '0.75',
+			esc_html__('1x Delay', 'uncode-core') => '1',
+			esc_html__('1.25x Delay', 'uncode-core') => '1.25',
+			esc_html__('1.5x Delay', 'uncode-core') => '1.5',
+			esc_html__('1.75x Delay', 'uncode-core') => '1.75',
+			esc_html__('2x Delay', 'uncode-core') => '2',
+		) ,
+		'dependency' => array(
+			'element' => 'css_animation',
+			'value' => 'mask' ,
+		) ,
+	) ,
 	array(
 		'type' => 'dropdown',
 		"heading" => esc_html__("Rotating", 'uncode-core') ,
@@ -1477,6 +1547,25 @@ $single_media_params = array(
 		'description' => esc_html__('If you wish to style particular content element differently, then use this field to add a class name and then refer to it in your CSS file.', 'uncode-core')
 	)
 );
+
+if ( function_exists('uncode_dynamic_srcset_lazy_loading_enabled') && uncode_dynamic_srcset_lazy_loading_enabled() === true ) {
+	$disable_lazy = array(
+		array(
+			"type" => 'checkbox',
+			"heading" => esc_html__("Disable Lazy Loading", 'uncode-core') ,
+			"param_name" => "no_lazy",
+			"description" => esc_html__("Disables lazy loading when Dynamic SrcSet is enabled, ensuring immediate loading, especially for images in the initial viewport.", 'uncode-core') ,
+			"value" => Array(
+				esc_html__("Yes, please", 'uncode-core') => 'yes'
+			) ,
+			'group' => esc_html__('Extra', 'uncode-core') ,
+		)
+	);
+} else {
+	$disable_lazy = array();	
+}
+
+$single_media_params = array_merge($single_media_params, $disable_lazy);
 
 if ( $lbox_enhance ) {
 	$uncode_advanced_videos = array(

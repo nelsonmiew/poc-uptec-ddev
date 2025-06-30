@@ -132,7 +132,10 @@ add_filter( 'uncode_js_composer_renderShortcodes_tags_array', 'uncode_js_compose
  * Remove p tags before/after VC content.
  */
 function uncode_p_tag_issue_filter( $content, $post_id ) {
-	$content = preg_replace('/<p[^>]*>\[vc_row(.*?)\/vc_row]<\/p>/', '[vc_row$1/vc_row]', $content);
+	$content = preg_replace('/<p[^>]*>\[vc_row/', '[vc_row', $content);
+	$content = preg_replace('/<p[^>]*>\[vc_section/', '[vc_section', $content);
+	$content = preg_replace('/vc_row]<\/p>/', 'vc_row]', $content);
+	$content = preg_replace('/vc_section]<\/p>/', 'vc_section]', $content);
 	return $content;
 }
 add_filter( 'content_edit_pre', 'uncode_p_tag_issue_filter', 10, 2 );
@@ -293,38 +296,28 @@ class Uncode_Vc_Navbar_Frontend {
 		$sidebar_switch = array(
 			array(
 				'sidebar_switch',
-				'<li><a id="vc_navbar-sidebar-switch" href="javascript:;" class="vc_icon-btn" title="' . esc_attr__( 'Sidebar mode', 'uncode-core' ) . '"><i class="vc_navbar-icon fa fa-minimize"></i></a></li>',
+				'<li class="vc_hide-mobile vc_hide-desktop-more vc_navbar-sidebar-switch"><a id="vc_navbar-sidebar-switch" href="javascript:;" class="vc_icon-btn" title="' . esc_attr__( 'Sidebar mode', 'uncode-core' ) . '"><i class="vc_navbar-icon fa fa-minimize"></i></a></li>',
 			)
 		);
 
 		$safe_mode = array(
 			array(
 				'safe_mode',
-				'<li><a id="vc_navbar-safe-mode" href="javascript:;" class="vc_icon-btn" title="' . esc_attr__( 'Safe mode', 'uncode-core' ) . '"><i class="vc_navbar-icon fa fa-marquee-plus"></i></a></li>'
+				'<li class="vc_hide-desktop-more vc_navbar-safe-mode"><a id="vc_navbar-safe-mode" href="javascript:;" class="vc_icon-btn" title="' . esc_attr__( 'Safe mode', 'uncode-core' ) . '"><i class="vc_navbar-icon fa fa-marquee-plus"></i></a></li>'
 			)
 		);
 
 		// $controls = array(
-		// 	'custom_css',
-		// 	'add_element',
-		// 	'view_post',
-		// 	'templates',
-		// 	'save_update',
-		// 	'screen_size',
-		// 	'redo',
-		// 	'undo',
+			// 'add_element',
+			// 'templates',
+			// 'view_post',
+			// 'more',
+			// 'save_buttons',
+			// 'screen_size',
+			// 'custom_css',
 		// );
 
 		foreach ($controls as $key => $value) {
-			if ( $value[0] === 'save_update' ) {
-				$save_update_control = array(
-					array(
-						'save_update',
-						$value[1]
-					)
-				);
-				unset($controls[$key]);
-			}
 			if ( $value[0] === 'add_element' ) {
 				$add_element_control = array(
 					array(
@@ -343,69 +336,20 @@ class Uncode_Vc_Navbar_Frontend {
 				);
 				unset($controls[$key]);
 			}
-			if ( $value[0] === 'view_post' ) {
-				$view_post_control = array(
-					array(
-						'view_post',
-						$value[1]
-					)
-				);
-				unset($controls[$key]);
-			}
-			if ( $value[0] === 'undo' ) {
-				$undo_control = array(
-					array(
-						'undo',
-						$value[1]
-					)
-				);
-				unset($controls[$key]);
-			}
-			if ( $value[0] === 'redo' ) {
-				$redo_control = array(
-					array(
-						'redo',
-						$value[1]
-					)
-				);
-				unset($controls[$key]);
-			}
-			if ( $value[0] === 'custom_css' ) {
-				$custom_css_control_key = $key;
-				// $new_value = str_replace( ' class="vc_pull-right"', '', $value[1] );
-				$custom_css = array(
-					array(
-						'custom_css',
-						// $new_value
-						$value[1]
-					)
-				);
-				unset($controls[$key]);
-			}
-			if ( $value[0] === 'screen_size' ) {
-				$screen_size_control_key = $key;
-				// $new_value = str_replace( ' class="vc_pull-right"', '', $value[1] );
-				$screen_size = array(
-					array(
-						'screen_size',
-						// $new_value
-						$value[1]
-					)
-				);
-				unset($controls[$key]);
-			}
 		}
 
-		array_splice($controls, 0, 0, $undo_control);
-		array_splice($controls, 0, 0, $redo_control);
-		array_splice($controls, 0, 0, $custom_css);
-		array_splice($controls, 0, 0, $screen_size);
-		array_splice($controls, 0, 0, $view_post_control);
-		array_splice($controls, 0, 0, $save_update_control);
-		array_splice($controls, 0, 0, $safe_mode);
-		array_splice($controls, 0, 0, $sidebar_switch);
-		array_splice($controls, 0, 0, $templates_control);
-		array_splice($controls, 0, 0, $add_element_control);
+		if ( isset( $safe_mode ) ) {
+			array_splice($controls, 0, 0, $safe_mode);
+		}
+		if ( isset( $sidebar_switch ) ) {
+			array_splice($controls, 0, 0, $sidebar_switch);
+		}
+		if ( isset( $templates_control ) ) {
+			array_splice($controls, 0, 0, $templates_control);
+		}
+		if ( isset( $add_element_control ) ) {
+			array_splice($controls, 0, 0, $add_element_control);
+		}
 
 		return $controls;
 	}

@@ -66,10 +66,23 @@ vc_map(array(
 			'description' => esc_html__('Separator style.', 'uncode-core')
 		) ,
 		array(
+			'type' => 'checkbox',
+			'heading' => esc_html__('Full Width', 'uncode-core') ,
+			'param_name' => 'full_width',
+			'description' => esc_html__('Activate to have full width divider.', 'uncode-core') ,
+			'value' => array(
+				esc_html__('Yes, please', 'uncode-core') => 'yes'
+			) ,
+		) ,
+		array(
 			'type' => 'textfield',
 			'heading' => esc_html__('Custom width', 'uncode-core') ,
 			'param_name' => 'el_width',
-			'description' => esc_html__('Insert the custom value in % or px.', 'uncode-core')
+			'description' => esc_html__('Insert the custom value in % or px.', 'uncode-core'),
+			'dependency' => array(
+				'element' => 'full_width',
+				'is_empty' => true
+			) ,
 		) ,
 		array(
 			'type' => 'textfield',

@@ -12,6 +12,7 @@ vc_remove_element( "vc_text_separator" );
 vc_remove_element( "vc_facebook" );
 vc_remove_element( "vc_tweetmeme" );
 vc_remove_element( "vc_googleplus" );
+vc_remove_element( "vc_goo_maps" );
 vc_remove_element( "vc_pinterest" );
 vc_remove_element( "vc_toggle" );
 vc_remove_element( "vc_images_carousel" );
@@ -34,6 +35,8 @@ vc_remove_element( "vc_zigzag" );
 vc_remove_element( "vc_hoverbox" );
 vc_remove_element( "vc_tta_toggle" );
 vc_remove_element( "vc_pricing_table" );
+vc_remove_element( "vc_copyright" );
+vc_remove_element( "shortcode_columns" );
 
 if ( apply_filters( 'uncode_remove_wp_links_vc_module', true ) ) {
 	vc_remove_element( "vc_wp_links" );
@@ -59,3 +62,5 @@ function uncode_custom_vc_template( $data ) {
 	return $data;
 }
 add_filter( 'vc_get_all_templates', 'uncode_custom_vc_template', 99 );
+
+add_filter( 'wpb_is_post_custom_layout_blank', '__return_true' );

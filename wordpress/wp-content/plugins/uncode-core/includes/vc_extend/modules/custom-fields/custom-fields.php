@@ -9,12 +9,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 $fields_font_size = $heading_size;
 unset( $fields_font_size[ 'BigText' ] );
 
+$font_size_custom = array (esc_html__('Custom', 'uncode-core') => 'custom');
+$fields_font_size = array_merge( $fields_font_size, $font_size_custom );
+
+$custom_field_color_options = uncode_core_vc_params_get_advanced_color_options( 'text_color', esc_html__("Text color", 'uncode-core'), esc_html__("Specify text color.", 'uncode-core'), esc_html__('Typography', 'uncode-core'), $uncode_colors, array( 'dependency' => array(
+		'element' => 'custom_typo',
+		'not_empty' => true,
+	) ) );
+list( $add_text_color_type, $add_text_color, $add_text_color_solid, $add_text_color_gradient ) = $custom_field_color_options;
+
 $custom_fields_params = array(
+	array(
+		'type' => 'uncode_shortcode_id',
+		'heading' => esc_html__('Unique ID', 'uncode-core') ,
+		'param_name' => 'uncode_shortcode_id',
+		'description' => '' ,
+		'group' => esc_html__('General', 'uncode-core')
+	) ,
 	array(
 		"type" => 'dropdown',
 		"heading" => esc_html__("Post Type", 'uncode-core') ,
 		"param_name" => "post_type",
-		'admin_label' => true,
+		"admin_label" => true,
 		"description" => esc_html__("Specify the Post Type the Custom Fields belong to. NB. Please specify the Post Type in which this module will be used.", 'uncode-core') ,
 		"value" => $uncode_post_types_with_labels ,
 		'group' => esc_html__('General', 'uncode-core')
@@ -40,6 +56,7 @@ foreach ( $uncode_post_types_with_labels as $uncode_post_types_with_labels_key =
 			"param_name" => "custom_fields_single_" . $uncode_post_types_with_labels_value,
 			"description" => esc_html__("Specify the Custom Fields you want to show. NB. Please select a Custom Field that belong to the same Post Type where the module will be displayed.", 'uncode-core') ,
 			"value" => $custom_fields_single_cpt ,
+			'admin_label' => true,
 			'group' => esc_html__('General', 'uncode-core') ,
 			'dependency' => array(
 				'element' => 'post_type',
@@ -53,16 +70,57 @@ foreach ( $uncode_post_types_with_labels as $uncode_post_types_with_labels_key =
 
 $custom_fields_params = array_merge( $custom_fields_params, array(
 	array(
+		"type" => "textfield",
+		"heading" => esc_html__("Manual values", 'uncode-core') ,
+		"param_name" => "manual_values",
+		"placeholder" => esc_html__("Type 'All' or add semicolon separated values (ex: 'custom-field-1;custom-field-2'). Default is 'All'", 'uncode-core') ,
+		"description" => esc_html__("Add semicolon separated values (ex: 'custom-field-1;custom-field-2') to manually select the custom fields you want to show. NB. Works only when 'Custom Fields' is set to 'All'.", 'uncode-core') ,
+		'group' => esc_html__('General', 'uncode-core') ,
+	) ,
+	array(
 		"type" => 'dropdown',
 		"heading" => esc_html__("Elements", 'uncode-core') ,
 		"param_name" => "field_elements",
 		"description" => esc_html__("Specify the elements you want to show.", 'uncode-core') ,
+		"admin_label" => true,
 		"value" => array(
-			__( 'All', 'uncode-core' ) => '',
-			__( 'Label', 'uncode-core' ) => 'label',
-			__( 'Value', 'uncode-core' ) => 'value',
+			__( 'Label and value (legacy)', 'uncode-core' ) => '',
+			__( 'Label (legacy)', 'uncode-core' ) => 'label',
+			__( 'Value (legacy)', 'uncode-core' ) => 'value',
+			__( 'Icon, label and value', 'uncode-core' ) => 'icon_label_value_new',
+			__( 'Label and value', 'uncode-core' ) => 'label_value_new',
+			__( 'Icon and value', 'uncode-core' ) => 'icon_value_new',
+			__( 'Label', 'uncode-core' ) => 'label_new',
+			__( 'Value', 'uncode-core' ) => 'value_new',
+			__( 'Icon', 'uncode-core' ) => 'icon_new',
 		) ,
 		'group' => esc_html__('General', 'uncode-core') ,
+	) ,
+	array(
+		"type" => 'textfield',
+		"heading" => esc_html__("Columns", 'uncode-core') ,
+		"param_name" => "columns",
+		"placeholder" => esc_html__("Number of columns for each breakpoint (ex: '4,2,1')", 'uncode-core') ,
+		"description" => esc_html__("Specify the number of columns for each breakpoint (ex: '4,2,1'). Default is one column. NB. Works only when 'Custom Fields' is set to 'All' and when 'Elements' is not set to a legacy value.", 'uncode-core') ,
+		'group' => esc_html__('General', 'uncode-core') ,
+	) ,
+	array(
+		'type' => 'checkbox',
+		'heading' => esc_html__('Rounded icon', 'uncode-core') ,
+		'param_name' => 'rounded_icon',
+		'description' => esc_html__('Activate to add a rounded background to the icons.', 'uncode-core') ,
+		'value' => array(
+			esc_html__('Yes, please', 'uncode-core') => 'yes'
+		) ,
+		'group' => esc_html__('General', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'field_elements',
+			'value' => array(
+				'icon_label_value_new',
+				'icon_value_new',
+				'icon_new',
+			)
+		),
 	) ,
 	array(
 		'type' => 'checkbox',
@@ -75,9 +133,32 @@ $custom_fields_params = array_merge( $custom_fields_params, array(
 		'group' => esc_html__('Typography', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'field_elements',
+			'value' => array(
+				'label',
+				'value',
+				'icon',
+			)
+		),
+	) ,
+	array(
+		'type' => 'dropdown',
+		'heading' => esc_html__('Text Display', 'uncode-core') ,
+		'param_name' => 'text_display',
+		'value' => array(
+			esc_html__('Block', 'uncode-core') => '',
+			esc_html__('Inline', 'uncode-core') => 'inline',
+		) ,
+		'group' => esc_html__('Typography', 'uncode-core') ,
+		'description' => esc_html__('Specify the display mode.', 'uncode-core'),
+		'dependency' => array(
+			'element' => 'custom_typo',
 			'not_empty' => true,
 		),
 	) ,
+	$add_text_color_type,
+	$add_text_color,
+	$add_text_color_solid,
+	$add_text_color_gradient,
 	array(
 		"type" => 'dropdown',
 		"heading" => esc_html__("Text font family", 'uncode-core') ,
@@ -103,6 +184,17 @@ $custom_fields_params = array_merge( $custom_fields_params, array(
 			'element' => 'custom_typo',
 			'not_empty' => true,
 		),
+	) ,
+	array(
+		'type' => 'textfield',
+		'heading' => esc_html__('Custom Size', 'uncode-core') ,
+		'param_name' => 'custom_size',
+		'description' => esc_html__('Specify a custom font size, ex: clamp(30px,5vw,75px), 4em, etc.', 'uncode-core') ,
+		'group' => esc_html__('Typography', 'uncode-core'),
+		'dependency' => array(
+			'element' => 'text_size',
+			'value' => array('custom'),
+		) ,
 	) ,
 	array(
 		"type" => 'dropdown',

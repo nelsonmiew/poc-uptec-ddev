@@ -117,14 +117,17 @@
 			if ($checkIfLoop == 0) return;
 		}
 		/** fix el id field */
-		var elId = $('input[name="el_id"]').val();
+		var elId = $('input[name="el_id"]').val(),
+			elId1 = $('input[name="el_id1"]').val();
 		if (typeof elId === 'undefined' || elId == '') {
 			elId = Math.floor(Math.random() * 90000) + 10000;
 			if ($checkIfGallery == 1) {
 				$('input[name="el_id"]').val('gallery-' + elId);
 			} else if ( $checkifSlider ) {
 				$('input[name="el_id"]').val('slider-' + elId);
-				$('input[name="el_id1"]').val('slider-' + elId);
+				if (typeof elId1 === 'undefined' || elId1 == '') {
+					$('input[name="el_id1"]').val('slider-' + elId);
+				}
 			} else {
 				$('input[name="el_id"]').val('index-' + elId);
 			}
@@ -134,7 +137,9 @@
 					$('input[name="el_id"]').val('gallery-' + elId);
 				} else if ( $checkifSlider ) {
 					$('input[name="el_id"]').val('slider-' + elId);
-					$('input[name="el_id1"]').val('slider-' + elId);
+					if (typeof elId1 === 'undefined' || elId1 == '') {
+						$('input[name="el_id1"]').val('slider-' + elId);
+					}
 				} else {
 					$('input[name="el_id"]').val('index-' + elId);
 				}
@@ -1437,6 +1442,39 @@
 
 		checkIndexTypeVal();
 		$index_type.on('change', checkIndexTypeVal);
+
+	}
+
+
+	//Justify content
+	window.showHideStickyInnnerRows = function() {
+		var	$panel_row = $('#vc_ui-panel-edit-element[data-vc-shortcode="vc_row"]'),
+			$animation_state = $('[data-vc-shortcode-param-name="animation_state"]', $panel_row),
+			//$animation_last_sticky = $('[data-vc-shortcode-param-name="animation_last_sticky"]', $panel_row),
+			//
+			$no_animation_last = $('[data-vc-shortcode-param-name="no_animation_last"] input[name="no_animation_last"]', $panel_row),
+			$animation_anticipate = $('[data-vc-shortcode-param-name="animation_anticipate"]', $panel_row);
+
+		var checkDepend = function(){
+			var typeVal = $('option:selected', $animation_state).val(),
+				anticipateVal = $no_animation_last.is(':checked') ? true : false;
+
+			// if ( typeVal !== 'end' ) {
+			// 	$animation_last_sticky.hide();
+			// } else {
+			// 	$animation_last_sticky.show();
+			// }
+
+			if ( typeVal !== 'end' && anticipateVal ) {
+				$animation_anticipate.show();
+			} else {
+				$animation_anticipate.hide();
+			}
+		};
+
+		checkDepend();
+		$animation_state.on('change', checkDepend);
+		$animation_anticipate.on('change', checkDepend);
 
 	}
 

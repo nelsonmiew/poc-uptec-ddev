@@ -884,7 +884,7 @@ class UncodeFont {
 		$getSourceUrl = '#';
 		switch ($source_system) {
 			case 'Google Web Fonts':
-				$getSourceUrl = 'https://www.google.com/fonts/specimen/' . $font->{$args['family']};
+				$getSourceUrl = 'https://fonts.google.com/specimen/' . $font->{$args['family']};
 				break;
 			case 'Font Squirrel':
 				$getSourceUrl = 'http://www.fontsquirrel.com/fonts/' . $font->family_urlname;

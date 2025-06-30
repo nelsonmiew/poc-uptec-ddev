@@ -607,6 +607,13 @@ $icon_box_params = array(
 	) ,
 	array(
 		'type' => 'textfield',
+		'heading' => esc_html__('Aria Label', 'uncode-core') ,
+		'description' => esc_html__("Insert an Aria Label attribute to provide additional information about the element's purpose and functionality to assistive technologies, such as screen readers.", 'uncode-core') ,
+		'param_name' => 'aria_label',
+		'group' => esc_html__('Extra', 'uncode-core') ,
+	) ,
+	array(
+		'type' => 'textfield',
 		'heading' => esc_html__('Element ID', 'uncode-core') ,
 		'param_name' => 'el_id',
 		'description' => esc_html__('This value has to be unique. Change it in case it\'s needed.', 'uncode-core') ,
@@ -618,7 +625,7 @@ $icon_box_params = array(
 		'param_name' => 'el_class',
 		'group' => esc_html__('Extra', 'uncode-core') ,
 		'description' => esc_html__('If you wish to style particular content element differently, then use this field to add a class name and then refer to it in your CSS file.', 'uncode-core')
-	)
+	) ,
 );
 
 if ( $lbox_enhance ) {

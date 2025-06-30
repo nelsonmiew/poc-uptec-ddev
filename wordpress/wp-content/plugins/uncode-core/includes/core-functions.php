@@ -188,6 +188,7 @@ function uncode_core_decode( $data ) {
  * making a call to our API
  */
 function uncode_core_is_registered() {
+	return true;
 	if ( function_exists( 'uncode_get_purchase_code' ) && function_exists( 'uncode_api_check_response' ) ) {
 		$purchase_code = uncode_get_purchase_code();
 
@@ -377,4 +378,64 @@ function uncode_core_check_valid_purchase_code() {
 /**
  * Filter ai-uncode script.
  */
-add_filter( 'script_loader_tag','uncode_unclean_url',10,3 );
+function uncode_core_unclean_url( $tag, $handle, $src ){
+	if (false !== strpos($src, 'ai-uncode')){
+		global $ai_bpoints, $adaptive_images_async, $wp_version;
+
+		if (! $ai_bpoints) {
+			$ai_sizes = '258,516,720,1032,1440,2064,2880';
+		} else {
+			$ai_sizes = implode(',', $ai_bpoints);
+		}
+
+		$url_parts    = parse_url($src);
+		$url_home     = parse_url(home_url());
+		$url_home     = (isset($url_home['path'])) ? '/' . trim($url_home['path'], '/') . '/' : '/';
+		$explode_path = explode('/', trim($url_parts['path'], '/'));
+		$is_content   = false;
+
+		foreach ($explode_path as $key => $value) {
+			if ($value === 'wp-content') {
+				$is_content = true;
+			}
+			if ($is_content) {
+				unset($explode_path[$key]);
+			}
+		}
+
+		if (count($explode_path) > 0) {
+			$path_domain = '/' . implode('/', $explode_path) . '/';
+		} else {
+			$path_domain = '/';
+		}
+
+		$ai_async = ($adaptive_images_async === 'on') ? " data-async='true'" : "";
+
+		// Mobile advanced settings
+		$mobile_advanced          = ot_get_option('_uncode_adaptive_mobile_advanced');
+		$limit_density            = ot_get_option('_uncode_adaptive_limit_density');
+		$use_current_device_width = ot_get_option('_uncode_adaptive_use_orientation_width');
+
+		// Mobile advanced settings
+		$data_mobile_advanced = '';
+
+		if ( $mobile_advanced == 'on' ) {
+			if ( $limit_density == 'on' ) {
+				$data_mobile_advanced .= "data-limit-density='true' ";
+			}
+
+			if ( $use_current_device_width == 'on' ) {
+				$data_mobile_advanced .= "data-use-orientation-width='true' ";
+			}
+		}
+
+		if ( version_compare( $wp_version, '6.4', '>=' ) ) {
+			$tag = str_replace( $src, apply_filters( 'uncode_ai_script_path', $url_parts['path'], $url_parts ) . '" ' . $data_mobile_advanced . 'id="uncodeAI"'.$ai_async.' data-home="'.$url_home.'" data-path="'.$path_domain.'" data-breakpoints-images="' . $ai_sizes, $tag );
+		} else {
+			$tag = str_replace( $src, apply_filters( 'uncode_ai_script_path', $url_parts['path'], $url_parts ) . "' " . $data_mobile_advanced . "id='uncodeAI'".$ai_async." data-home='".$url_home."' data-path='".$path_domain."' data-breakpoints-images='" . $ai_sizes, $tag );
+		}
+	}
+
+	return $tag;
+}
+add_filter( 'script_loader_tag', 'uncode_core_unclean_url', 10, 3 );

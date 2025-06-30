@@ -63,6 +63,8 @@
 		UNCODE.readMoreCol();
 		UNCODE.inlineImgs();
 		UNCODE.animatedBgGradient();
+		UNCODE.areaTextReveal();
+		UNCODE.thumbsReveal();
 		$(window).on('load',function(){
 			clearRequestTimeout(waypoint_request);
 			waypoint_request = requestTimeout( function(){
@@ -86,7 +88,7 @@
 		var $navBar = $('#vc_navbar', parent.document),
 			$addElPanel = $('#vc_ui-panel-add-element', parent.document),
 			$sizePreviews = $('#vc_screen-size-control', $navBar),
-			$settings_css = $('#vc_post-settings-button', $navBar),
+			$settings_css = $('.vc_post-settings', $navBar),
 			$body = $('body', parent.document);
 
 		if ( $body.hasClass('post-type-uncodeblock') ) {
@@ -113,14 +115,14 @@
 			$updateButton = $('#vc_button-update', $navBar),
 			$buttonWrap = $updateButton.closest('li').addClass('vc_button-wrap'),
 			$more_opts = $('#vc_more-options', $navBarUl).closest('li.vc_pull-right').addClass('has_vc_more-options'),
-			$post_stgs = $('#vc_post-settings-button', $navBarUl).closest('li.vc_pull-right').addClass('has_vc_post-settings-button'),
+			$post_stgs = $('> .vc_hide-mobile > .vc_post-settings', $navBarUl).closest('li.vc_pull-right').addClass('has_vc_post-settings-button'),
 			$size_ctrl = $('#vc_screen-size-control', $navBarUl).closest('li.vc_pull-right').addClass('has_vc_screen-size-control'),
 			$back_btn = $('.vc_back-button', $navBarUl).closest('li.vc_pull-right').addClass('has_vc_back-button'),
 			$draft_publish = $('#vc_button-save-draft', $navBarUl).closest('li.vc_pull-right').addClass('has_vc_button-save-draft'),
-			$seo_options = $('#vc_seo-button', $navBarUl).closest('li.vc_pull-right').addClass('vc_seo-li'),
+			$seo_options = $('> .vc_hide-mobile > .vc_seo-button', $navBarUl).closest('li.vc_pull-right').addClass('vc_seo-li'),
 			$buttonRight = $('> li.vc_pull-right:not(.vc_show-mobile)', $navBarUl),
-			$undoLi = $('#vc_navbar-undo', $navBarUl).closest('li').addClass('vc_undo-li'),
-			$redoLi = $('#vc_navbar-redo', $navBarUl).closest('li').addClass('vc_redo-li'),
+			$undoLi = $('> .vc_hide-mobile > .vc_undo-button', $navBarUl).closest('li').addClass('vc_undo-li'),
+			$redoLi = $('> .vc_hide-mobile > .vc_redo-button', $navBarUl).closest('li').addClass('vc_redo-li'),
 			button_length = $('> button', $buttonWrap).length;
 
 		if ( !$('#vc_clipboard_toolbar_paste', $navBar).length ) {
@@ -134,6 +136,7 @@
 		$('#vc_templates-editor-button', $navBarUl).closest('li').addClass('do_not_show_if_sided');
 
 		var _frontendEditorSidebarSwitch = function( switched ){
+			return;
 
 			if ( switched === true ) {
 				$('#vc_navbar-sidebar-switch', $navBar).find('.fa-minimize').removeClass('fa-minimize').addClass('fa-maximize');
@@ -176,7 +179,6 @@
 
 				_add_view.on('render', function(){
 					var $el = _add_view.$el;
-					_edit_view.hide();
 					if ( typeof window.parent.vc.row_layout_editor !== 'undefined' && window.parent.vc.row_layout_editor.$el.hasClass('vc_active') ) {
 						window.parent.vc.row_layout_editor.hide();
 					} else if ( typeof window.parent.vc.post_settings_view !== 'undefined' && window.parent.vc.post_settings_view.$el.hasClass('vc_active') ) {
@@ -193,7 +195,6 @@
 
 				_edit_view.on('render', function(){
 					if ( $add_view_cid !== _add_view.cid ) {
-						_add_view.hide();
 						$add_view_cid = _add_view.cid;
 					}
 					if ( typeof window.parent.vc.row_layout_editor !== 'undefined' && window.parent.vc.row_layout_editor.$el.hasClass('vc_active') ) {
@@ -205,12 +206,14 @@
 
 		};
 
-		if ( window.localStorage['vc_frontend-sidebar-switch'] === 'on' ) {
+		if ( window.localStorage['vc_frontend-sidebar-switch'] === 'on' && UNCODE.wwidth > 960 ) {
 			$('body', parent.document).addClass('vc-sidebar-switch');
 			$('body').addClass('vc-sidebar-switch-inside');
 			_frontendEditorSidebarSwitch( true );
 			window.parent.vc.add_element_block_view.render(!1);
 			window.parent.jQuery( window.parent.document ).trigger( 'vc_frontend-sidebar-switch', true );
+		} else if ( UNCODE.wwidth <= 960 && $('body', parent.document).hasClass('vc-sidebar-switch') ) {
+			_frontendEditorSidebarSwitch( false );
 		}
 
 		_vcFocusAfterAddElementWindow();
@@ -237,6 +240,7 @@
 				}
 			}
 			_frontendEditorSidebarSwitch( window.localStorage['vc_frontend-sidebar-switch'] === 'on' );
+			window.parent.dispatchEvent(new CustomEvent('resize'));
 
 		});
 
@@ -656,7 +660,7 @@
 			}
 
 			if ( ( shortcode === 'vc_accordion_tab' ||  shortcode === 'vc_tab' ) && model.attributes.cloned ) {
-				model.attributes.params.tab_id = model.attributes.cloned_from.params.tab_id + Math.floor(Math.random() * 10);;
+				model.attributes.params.tab_id = model.attributes.cloned_from.params.tab_id + Math.floor(Math.random() * 10);
 			} /*else if ( ( shortcode === 'vc_gallery' ||  shortcode === 'uncode_index' ) && model.attributes.cloned ) {
 				model.attributes.params.el_id = model.attributes.cloned_from.params.el_id + Math.floor(Math.random() * 10);;
 			}*/
@@ -872,25 +876,32 @@
 			if ( shortcode === 'vc_accordion' ) {
 				var $titles = $('.panel-title', $el);
 				$titles.each(function(){
-					var $title = $(this);
-					if ( model._previousAttributes.params.titles_font !== model.changed.params.titles_font ) {
-						$title.removeClass(model._previousAttributes.params.titles_font).addClass(model.changed.params.titles_font);
-					}
-					if ( model._previousAttributes.params.titles_size !== model.changed.params.titles_size ) {
-						$title.removeClass(model._previousAttributes.params.titles_size).addClass(model.changed.params.titles_size);
-					}
-					if ( model._previousAttributes.params.titles_weight !== model.changed.params.titles_weight ) {
-						$title.removeClass('font-weight-' + model._previousAttributes.params.titles_weight).addClass('font-weight-' + model.changed.params.titles_weight);
-					}
-					if ( model._previousAttributes.params.titles_transform !== model.changed.params.titles_transform ) {
-						$title.removeClass('text-' + model._previousAttributes.params.titles_transform).addClass('text-' + model.changed.params.titles_transform);
-					}
-					if ( model._previousAttributes.params.titles_height !== model.changed.params.titles_height ) {
-						$title.removeClass(model._previousAttributes.params.titles_height).addClass(model.changed.params.titles_height);
-					}
-					if ( model._previousAttributes.params.titles_space !== model.changed.params.titles_space ) {
-						$title.removeClass(model._previousAttributes.params.titles_space).addClass(model.changed.params.titles_space);
-					}
+					var $title = $(this),
+						params = model.changed.params,
+						old_params = model._previousAttributes.params;
+
+					$title.removeClass(old_params.titles_font).addClass(params.titles_font);
+
+					$title.removeClass(old_params.titles_size).addClass(params.titles_size);
+
+					$title.removeClass('font-weight-' + old_params.titles_weight).addClass('font-weight-' + params.titles_weight);
+
+					$title.removeClass('text-' + old_params.titles_transform).addClass('text-' + params.titles_transform);
+
+					$title.removeClass(old_params.titles_height).addClass(params.titles_height);
+
+					$title.removeClass(old_params.titles_space).addClass(params.titles_space);
+
+					var title_attrs = $title[0].attributes,
+						title_html = $title[0].innerHTML;
+
+					var title_attr = {};
+					$.each(title_attrs, function(i,e) { 
+						title_attr[e.nodeName] = e.nodeValue; 
+					});
+					var $new_title = $('<' + params.heading_semantic + '/>').html(title_html).attr(title_attr);
+					$title.replaceWith($new_title);
+
 				});
 
 				var $panels = $('.panel', $el),
@@ -898,7 +909,7 @@
 					data_classes = $accordion.attr('data-classes'),
 					a_classes = $accordion.attr('data-a-classes'),
 					palette_classes = window.localStorage.getItem('vc_accordion_classes'),
-					palette_classes_arr = typeof palette_classes !== '' ? palette_classes.split(' ') : '';
+					palette_classes_arr = (typeof palette_classes !== 'undefined' && palette_classes !== null) ? palette_classes.split(' ') : '';
 
 				$panels.each(function(){
 					var $panel = $(this);
@@ -1141,5 +1152,12 @@
 			}
 		}
 	}
+
+	window.fixallInputs();
+
+	window.parent.vc.events.on('render:PostSettingsPanelView', function(){
+		window.uncode_hide_flip_from_hor_el();
+		window.uncode_hide_animation_seq_from_css_grid();
+	});
 
 })(jQuery);

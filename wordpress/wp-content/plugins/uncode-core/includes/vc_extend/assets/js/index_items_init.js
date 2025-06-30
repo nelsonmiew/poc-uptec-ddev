@@ -80,6 +80,7 @@
     	window.itemIndex();
     	window.uncode_index_show_hide_filter_pagination();
 		window.showHideJustifyContent();
+		window.showHideStickyInnnerRows();
     }, 1000);
 
 	$('#vc_ui-panel-edit-element').one('vcPanel.shown', function(e){

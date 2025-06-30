@@ -1,3 +1,5 @@
-dist/*
-!dist/**/*.min.js
-!dist/**/*.min.css
+
+!**/*.min.js
+!**/*.min.css
+
+node_modules/

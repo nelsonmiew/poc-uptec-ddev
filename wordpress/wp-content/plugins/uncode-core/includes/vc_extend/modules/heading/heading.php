@@ -11,12 +11,15 @@ $text_color_options = uncode_core_vc_params_get_advanced_color_options( 'text_co
 list( $add_text_color_type, $add_text_color, $add_text_color_solid, $add_text_color_gradient ) = $text_color_options;
 
 $new_css_animation =  array (
-	esc_html__('Lines curtain', 'uncode-core') => 'curtain',
-	esc_html__('Words curtain', 'uncode-core') => 'curtain-words',
-	esc_html__('Words sliding', 'uncode-core') => 'single-slide',
-	esc_html__('Words sliding reverse', 'uncode-core') => 'single-slide-opposite',
-	esc_html__('Letters curtain', 'uncode-core') => 'single-curtain',
-	esc_html__('Letters typewriter', 'uncode-core') => 'typewriter',
+	esc_html__('Lines Curtain', 'uncode-core') => 'curtain',
+	esc_html__('Lines Perspective', 'uncode-core') => 'perspective',
+	esc_html__('Words Curtain', 'uncode-core') => 'curtain-words',
+	esc_html__('Words Sliding', 'uncode-core') => 'single-slide',
+	esc_html__('Words Sliding Reverse', 'uncode-core') => 'single-slide-opposite',
+	esc_html__('Words Perspective', 'uncode-core') => 'perspective-words',
+	esc_html__('Letters Curtain', 'uncode-core') => 'single-curtain',
+	esc_html__('Letters Typewriter', 'uncode-core') => 'typewriter',
+	esc_html__('Scroll Reveal', 'uncode-core') => 'text-reveal',
 );
 $alt_css_animation =  array (
 	esc_html__('Parallax', 'uncode-core') => 'parallax',
@@ -509,6 +512,75 @@ vc_map(array(
 		) ,
 		$add_text_css_animation,
 		array(
+			"type" => "dropdown",
+			"heading" => esc_html__("Target", 'uncode-core') ,
+			"param_name" => "text_reveal_target",
+			"description" => esc_html__("Defines how the text is split and animated between Words, Characters, and Lines.", 'uncode-core') ,
+			"group" => esc_html__("Animation", 'uncode-core'),
+			"value" => array(
+				esc_html__('Words', 'uncode-core') => '',
+				esc_html__('Characters', 'uncode-core') => 'chars',
+				esc_html__('Lines', 'uncode-core') => 'lines',
+			) ,
+			'dependency' => array(
+				'element' => 'css_animation',
+				'value' => array(
+					'text-reveal',
+				),
+			) ,
+		) ,
+		array(
+			"type" => "type_numeric_slider",
+			"heading" => esc_html__("Starting Opacity", 'uncode-core') ,
+			"param_name" => "text_reveal_opacity",
+			"description" => esc_html__("Sets the starting opacity of the Heading before the Text Reveal effect.", 'uncode-core') ,
+			"min" => 0,
+			"max" => 90,
+			"step" => 1,
+			"value" => 20,
+			'dependency' => array(
+				'element' => 'css_animation',
+				'value' => array(
+					'text-reveal',
+				),
+			) ,
+			'group' => esc_html__('Animation', 'uncode-core') ,
+		) ,
+		array(
+			"type" => "type_numeric_slider",
+			"heading" => esc_html__("Animation Speed", 'uncode-core') ,
+			"param_name" => "text_reveal_speed",
+			"description" => esc_html__("Determines the inertia speed of the effect. Note that since this is a scroll-based effect, the actual speed will depend on the page's scrolling.", 'uncode-core') ,
+			"min" => 1,
+			"max" => 100,
+			"step" => 1,
+			"value" => 50,
+			'dependency' => array(
+				'element' => 'css_animation',
+				'value' => array(
+					'text-reveal',
+				),
+			) ,
+			'group' => esc_html__('Animation', 'uncode-core') ,
+		) ,
+		array(
+			"type" => "type_numeric_slider",
+			"heading" => esc_html__("Start from top", 'uncode-core') ,
+			"param_name" => "text_reveal_top",
+			"min" => 0,
+			"max" => 100,
+			"step" => 1,
+			"value" => 50,
+			'description' => esc_html__('Specifies when the animation begins, using a Viewport Height value. For example, a value of 100 will start the effect when the text enters at 100% of the viewport height, while a value of 50 will trigger the animation when the Heading reaches 50% of the viewport height.', 'uncode-core') ,
+			'group' => esc_html__('Animation', 'uncode-core') ,
+			'dependency' => array(
+				'element' => 'css_animation',
+				'value' => array(
+					'text-reveal',
+				),
+			) ,
+		) ,
+		array(
 			"type" => 'checkbox',
 			"heading" => esc_html__("Marquee Edge to Edge", 'uncode-core') ,
 			"param_name" => "marquee_clone",
@@ -587,9 +659,9 @@ vc_map(array(
 		) ,
 		array(
 			"type" => 'checkbox',
-			"heading" => esc_html__("Blurred margins", 'uncode-core') ,
+			"heading" => esc_html__("Blurred Edges", 'uncode-core') ,
 			"param_name" => "marquee_blur",
-			"description" => esc_html__("[...]", 'uncode-core') ,
+			"description" => esc_html__("Activate to have the edges of the Marquee blurred/shaded.", 'uncode-core') ,
 			"value" => Array(
 				esc_html__("Yes, please", 'uncode-core') => 'yes'
 			) ,
@@ -679,7 +751,9 @@ vc_map(array(
 				'element' => 'css_animation',
 				'value' => array(
 					'curtain',
+					'perspective',
 					'curtain-words',
+					'perspective-words',
 					'single-curtain',
 					'single-slide',
 					'single-slide-opposite',
@@ -770,9 +844,9 @@ vc_map(array(
 		) ,
 		array(
 			"type" => 'checkbox',
-			"heading" => esc_html__("Blurred margins", 'uncode-core') ,
+			"heading" => esc_html__("Marquee Blurred Edges", 'uncode-core') ,
 			"param_name" => "marquee_blur_alt",
-			"description" => esc_html__("[...]", 'uncode-core') ,
+			"description" => esc_html__("Activate to have the edges of the Marquee blurred/shaded.", 'uncode-core') ,
 			"value" => Array(
 				esc_html__("Yes, please", 'uncode-core') => 'yes'
 			) ,

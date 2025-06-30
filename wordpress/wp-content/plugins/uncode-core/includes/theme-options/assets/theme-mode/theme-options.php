@@ -915,27 +915,27 @@ function custom_theme_options()
 				) ,
 				array(
 					'value' => 'top-t-bottom',
-					'label' => esc_html__('Top to bottom', 'uncode-core') ,
+					'label' => esc_html__('Top to Bottom', 'uncode-core') ,
 				) ,
 				array(
 					'value' => 'left-t-right',
-					'label' => esc_html__('Left to right', 'uncode-core') ,
+					'label' => esc_html__('Left to Right', 'uncode-core') ,
 				) ,
 				array(
 					'value' => 'right-t-left',
-					'label' => esc_html__('Right to left', 'uncode-core') ,
+					'label' => esc_html__('Right to Left', 'uncode-core') ,
 				) ,
 				array(
 					'value' => 'bottom-t-top',
-					'label' => esc_html__('Bottom to top', 'uncode-core') ,
+					'label' => esc_html__('Bottom to Top', 'uncode-core') ,
 				) ,
 				array(
 					'value' => 'zoom-in',
-					'label' => esc_html__('Zoom in', 'uncode-core') ,
+					'label' => esc_html__('Zoom In', 'uncode-core') ,
 				),
 				array(
 					'value' => 'zoom-out',
-					'label' => esc_html__('Zoom out', 'uncode-core') ,
+					'label' => esc_html__('Zoom Out', 'uncode-core') ,
 				),
 				array(
 					'value' => 'alpha-anim',
@@ -2050,6 +2050,12 @@ function custom_theme_options()
 				'label' => esc_html__('Unique custom field ID','uncode-core') ,
 				'desc' => esc_html__('This value is created automatically and it shouldn\'t be edited unless you know what you are doing.','uncode-core'),
 			),
+			array(
+				'id' => '_uncode_cf_image',
+				'label' => esc_html__('Custom field media', 'uncode-core') ,
+				'desc' => esc_html__('Upload an image for the custom field icon.', 'uncode-core') ,
+				'type' => 'upload',
+			) ,
 		)
 	);
 
@@ -2831,6 +2837,54 @@ function custom_theme_options()
 			'section' => 'uncode_main_section',
 			'condition' => '_uncode_boxed:is(off)',
 			'operator' => 'and'
+		) ,
+		array(
+			'id' => '_uncode_progressive_blur',
+			'label' => esc_html__('Blur Progressive', 'uncode-core') ,
+			'desc' => esc_html__('Activate the Blur Progressive effect.', 'uncode-core') ,
+			'std' => 'none',
+			'type' => 'select',
+			'section' => 'uncode_main_section',
+			'std' => '',
+			'choices' => array(
+				array(
+					'value' => '',
+					'label' => esc_html__('None', 'uncode-core') ,
+				) ,
+				array(
+					'value' => 'top',
+					'label' => esc_html__('Top', 'uncode-core') ,
+				) ,
+				array(
+					'value' => 'bottom',
+					'label' => esc_html__('Bottom', 'uncode-core') ,
+				) ,
+				array(
+					'value' => 'both',
+					'label' => esc_html__('Top and Bottom', 'uncode-core') ,
+				) ,
+			),
+		) ,
+		array(
+			'id' => '_uncode_progressive_blur_h',
+			'label' => esc_html__('Blur Progressive Height', 'uncode-core'),
+			'desc' => esc_html__('Set the Blur Progressive height.', 'uncode-core') ,
+			'type' => 'text',
+			'std' => '25vh',
+			'section' => 'uncode_main_section',
+			'condition' => '_uncode_progressive_blur:not()',
+			'operator' => 'and',
+		) ,
+		array(
+			'id' => '_uncode_progressive_blur_val',
+			'label' => esc_html__('Blur Progressive Value','uncode-core') ,
+			'desc' => esc_html__('Set the Blur Progressive value.', 'uncode-core') ,
+			'std' => '20',
+			'type' => 'numeric-slider',
+			'section' => 'uncode_main_section',
+			'min_max_step'=> '10,50,10',
+			'condition' => '_uncode_progressive_blur:not()',
+			'operator' => 'and',
 		) ,
 		array(
 			'id' => '_uncode_body_border_color',
@@ -5617,16 +5671,16 @@ function custom_theme_options()
 		) ,
 		array(
 			'id' => '_uncode_smooth_scroll',
-			'label' => esc_html__('Smooth Scroll', 'uncode-core') ,
+			'label' => esc_html__('SmoothScroll', 'uncode-core') ,
 			'desc' => esc_html__('Enable this option to create a smoother scrolling experience on your site.', 'uncode-core') ,
-			'std' => 'off',
+			'std' => 'on',
 			'type' => 'on-off',
 			'section' => 'uncode_customize_section',
 		) ,
 		array(
 			'id' => '_uncode_smooth_scroll_safe',
-			'label' => esc_html__('Smooth Scroll Safe', 'uncode-core') ,
-			'desc' => esc_html__('Activate this option if there are unexpected issues with Smooth Scroll on complex elements. For example, if after a change in page height (such as with Tabs, Accordion, Toggle, Ajax), it is not possible to scroll to the Footer.', 'uncode-core') ,
+			'label' => esc_html__('SmoothScroll Safe', 'uncode-core') ,
+			'desc' => esc_html__('Activate this option if there are unexpected issues with SmoothScroll on complex elements. For example, if after a change in page height (such as with Tabs, Accordion, Toggle, Ajax), it is not possible to scroll to the Footer.', 'uncode-core') ,
 			'std' => 'off',
 			'type' => 'on-off',
 			'section' => 'uncode_customize_section',
@@ -5754,6 +5808,21 @@ function custom_theme_options()
 			'condition' => '_uncode_redirect:is(on)',
 			'operator' => 'and',
 			'choices' => array(),
+		) ,
+		array(
+			'id' => '_uncode_customize_accessibility_block_title',
+			'label' => '<i class="fa fa-command"></i> ' . esc_html__('Accessibility', 'uncode-core') ,
+			'type' => 'textblock-titled',
+			'class' => 'section-title',
+			'section' => 'uncode_extra_section',
+		) ,
+		array(
+			'id' => '_uncode_accessibility',
+			'label' => esc_html__('Accessibility', 'uncode-core') ,
+			'desc' => esc_html__('Enable this option to activate extra accessibility features that allow you to be more compliant with accessibility standards.', 'uncode-core') ,
+			'std' => 'off',
+			'type' => 'on-off',
+			'section' => 'uncode_extra_section',
 		) ,
 	);
 

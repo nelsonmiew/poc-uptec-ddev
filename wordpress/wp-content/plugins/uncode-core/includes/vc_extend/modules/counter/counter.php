@@ -53,6 +53,14 @@ vc_map(array(
 		$add_counter_color_solid,
 		array(
 			"type" => 'dropdown',
+			"heading" => esc_html__("Counter semantic", 'uncode-core') ,
+			"param_name" => "semantic",
+			"description" => esc_html__("Specify counter tag.", 'uncode-core') ,
+			"value" => $heading_semantic,
+			'std' => 'p',
+		) ,
+		array(
+			"type" => 'dropdown',
 			"heading" => esc_html__("Counter font family", 'uncode-core') ,
 			"param_name" => "font",
 			"description" => esc_html__("Specify the counter font family.", 'uncode-core') ,

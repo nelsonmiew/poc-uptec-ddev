@@ -46,3 +46,4 @@ require_once UNCODE_CORE_PLUGIN_DIR . '/includes/vc_extend/modules/socials/exten
 require_once UNCODE_CORE_PLUGIN_DIR . '/includes/vc_extend/modules/info-box/extend.php';
 require_once UNCODE_CORE_PLUGIN_DIR . '/includes/vc_extend/modules/uncode-index/extend.php';
 require_once UNCODE_CORE_PLUGIN_DIR . '/includes/vc_extend/modules/single-media/extend.php';
+require_once UNCODE_CORE_PLUGIN_DIR . '/includes/vc_extend/modules/custom-fields/extend.php';

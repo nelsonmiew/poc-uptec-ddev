@@ -26,8 +26,9 @@ function uncode_dequeue_visual_composer() {
 		wp_deregister_script( 'wpb_composer_front_js' );
 	} else {
 		wp_deregister_script('vc_inline_iframe_js');
-		wp_register_script( 'vc_inline_iframe_js', plugins_url( 'assets/js/' . $folder . 'page_editable' . $suffix . '.js', __FILE__ ), array( 'jquery', 'underscore', ), UncodeCore_Plugin::VERSION);
-		wp_enqueue_script( 'vc_inline_iframe_js', plugins_url( 'assets/js/' . $folder . 'page_editable' . $suffix . '.js', __FILE__ ), array( 'jquery', 'underscore', ), UncodeCore_Plugin::VERSION, true );
+		wp_enqueue_script('uncode-admin-fix-inputs', plugins_url( 'assets/js/fix_inputs.js', __FILE__ ), false, UncodeCore_Plugin::VERSION, true);
+		wp_register_script( 'vc_inline_iframe_js', plugins_url( 'assets/js/page_editable.js', __FILE__ ), array( 'jquery', 'underscore', ), UncodeCore_Plugin::VERSION);
+		wp_enqueue_script( 'vc_inline_iframe_js', plugins_url( 'assets/js/page_editable.js', __FILE__ ), array( 'jquery', 'underscore', ), UncodeCore_Plugin::VERSION, true );
 		wp_enqueue_script( 'uncode-frontend-app', plugins_url( 'assets/js/' . $folder . 'frontend-app' . $suffix . '.js', __FILE__ ), array( 'jquery', 'uncode-app', ), UncodeCore_Plugin::VERSION, true );
 		$google_api_key = ot_get_option('_uncode_gmaps_api');
 		if ($google_api_key !== '') {
@@ -99,6 +100,9 @@ function uncode_init_custom_js() {
 	if ( isset( $wp_styles->registered['vc_font_awesome_5_shims'] ) ) {
 		wp_dequeue_style('vc_font_awesome_5_shims');
 	}
+	if ( isset( $wp_styles->registered['vc_font_awesome_6'] ) ) {
+		wp_dequeue_style('vc_font_awesome_6');
+	}
 }
 add_action('vc_backend_editor_render', 'uncode_init_custom_js');
 
@@ -106,6 +110,8 @@ add_action('vc_backend_editor_render', 'uncode_init_custom_js');
  * 	Custom frontend scripts
  */
 function uncode_init_front_css() {
+	wp_deregister_style('vc_font_awesome_6');
+	wp_dequeue_style('vc_font_awesome_6');
 	wp_enqueue_style('vc-admin', plugins_url( 'assets/css/vc_admin.css', __FILE__ ), false, UncodeCore_Plugin::VERSION);
 	if ( is_rtl() ) {
 		wp_enqueue_style('vc-admin-rtl', plugins_url( 'assets/css/vc_admin-rtl.css', __FILE__ ), 'vc-admin', UncodeCore_Plugin::VERSION);
@@ -159,8 +165,8 @@ function uncode_frontend_re_register_script() {
 
 		// Frontend editor main JS file
 		wp_deregister_script('vc-frontend-editor-min-js');
-		wp_register_script( 'vc-frontend-editor-min-js', plugins_url( 'assets/js/' . $folder . 'frontend-editor' . $suffix . '.js', __FILE__ ), array( 'jquery-core', 'vc_accordion_script'), UncodeCore_Plugin::VERSION);
-		wp_enqueue_script( 'vc-frontend-editor-min-js', plugins_url( 'assets/js/' . $folder . 'frontend-editor' . $suffix . '.js', __FILE__ ), array( 'jquery-core', 'vc_accordion_script'), UncodeCore_Plugin::VERSION, true );
+		wp_register_script( 'vc-frontend-editor-min-js', plugins_url( 'assets/js/frontend-editor.js', __FILE__ ), array( 'jquery-core', 'vc_accordion_script'), UncodeCore_Plugin::VERSION);
+		wp_enqueue_script( 'vc-frontend-editor-min-js', plugins_url( 'assets/js/frontend-editor.js', __FILE__ ), array( 'jquery-core', 'vc_accordion_script'), UncodeCore_Plugin::VERSION, true );
 		wp_localize_script( 'vc-frontend-editor-min-js', 'i18nLocale', visual_composer()->getEditorsLocale() );
 
 		// Removes Gutenberg styles from Frontend Editor

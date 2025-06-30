@@ -1,13 +1,18 @@
 !function($) {
 	"use strict";
 	window.fixallInputs = function() {
-		$('.wpb_el_type_checkbox:not(.checkbox_converted)').each(function(index) {
+		var settingsCheckBoxes = window.parent.jQuery('.wpb-toggle-wrapper:not(.checkbox_converted)');
+
+		$('.wpb_el_type_checkbox:not(.checkbox_converted)').add(settingsCheckBoxes).each(function(index) {
 			var $checkboxCont = $(this),
 				$checkbox = $(this).find('input'),
 				vals = new Array();
 			$(this).addClass('checkbox_converted');
 			if ($checkbox.length == 1) {
 				$checkboxCont.addClass('uncode-checkbox');
+				if ( ! $checkbox.closest('.edit_form_line').length ) {
+					$checkbox.wrap('<div class="edit_form_line" />');
+				}
 				$checkbox.wrap('<div class="on-off-switch" />');
 				if ($checkbox.hasClass('row_height_use_pixel') || $checkbox.hasClass('media_width_use_pixel') || $checkbox.hasClass('column_width_use_pixel')) {
 					vals[0] = 'px';
@@ -35,16 +40,26 @@
 				$('<span class="slide-button"></span><label class="on-off-switch-label"><span class="on-off-switch-inner">' + vals[0] + '</span><span class="on-off-switch-inner">' + vals[1] + '</span></label>').insertAfter($checkbox);
 			}
 		});
-		$('.wpb_el_type_widgetised_sidebars, .wpb_el_type_dropdown').find('select').each(function(index) {
+
+		var settingsSelect = window.parent.jQuery('.vc_ui-panel-content .edit_form_line, #vc_settings-post_status');
+		$('.wpb_el_type_widgetised_sidebars, .wpb_el_type_dropdown').add(settingsSelect).find('select:not(.icon-category-select):not(.vc-iconpicker)').each(function(index) {
 			var $select = $(this),
 				$wrapper = $select.closest('.select-wrapper').addClass('select-uncode-colors');
-			if ($(this).is('[name$=_color]')) {
+			if ( ! $(this).closest('.edit_form_line').length ) {
+				$select.wrap('<div class="edit_form_line" />');
+			}
+			if ($(this).is('[name$=_color]') && !$(this).hasClass('easy-drop-color') ) {
 				if (window.navigator.userAgent.indexOf("Windows NT 10.0") == -1) {
+					$(this).addClass('easy-drop-color');
 					$(this).easyDropDown({
 						cutOff: 10,
 					});
 				}
-			} else $select.wrap('<div class="select-wrapper" />');
+			} else {
+				if ( ! $select.closest('.select-wrapper').length ) {
+					$select.wrap('<div class="select-wrapper" />');
+				}
+			}
 		});
 
 		window.initAllSliders();
@@ -130,7 +145,7 @@
 			$marker = $el.closest(".vc_shortcode-param").find(".numeric-slider-helper-input");
 		$input.val($value).change();
 		if ($value == 0) {
-			if ($input.hasClass("row_height_percent") || $input.hasClass("row_inner_height_percent") || $input.hasClass("row_width")) {
+			if ($input.hasClass("row_height_percent") || $input.hasClass("row_inner_height_percent") || $input.hasClass("row_width") || $input.hasClass("animation_offset_bottom")) {
 				$marker.html("Auto");
 			} else if ($input.hasClass("border_width")) {
 				$marker.html("Inherit");

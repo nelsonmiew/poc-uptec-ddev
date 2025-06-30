@@ -1,3 +1,6 @@
+# reste
+ddev clean
+
 ddev start
 
 ddev composer install
@@ -22,10 +25,14 @@ echo "Database dump imported successfully."
 
 echo "Run wp search-replace to update URLs in the database..."
 # 1. Use the powerful regex to replace all old production/staging domains.
-ddev wp search-replace '(https?:)?//(uptec\.up\.pt|uptec\.fera\.miewstudio\.com)' 'https://uptec.ddev.site' --all-tables --regex
+#ddev wp search-replace '(https?:)?//(uptec\.up\.pt|uptec\.fera\.miewstudio\.com)' 'https://uptec-ddev.ddev.site' --all-tables --regex
+
+ddev wp search-replace 'uptec.up.pt' 'uptec-ddev.ddev.site' --all-tables --regex --skip-columns=guid
+ddev wp search-replace 'uptec.fera.miewstudio.com' 'uptec-ddev.ddev.site' --all-tables --regex --skip-columns=guid
+
 
 # 2. As a final cleanup, ensure all instances of the new local URL use HTTPS.
-ddev wp search-replace 'http://uptec.ddev.site' 'https://uptec.ddev.site' --all-tables
+ddev wp search-replace 'http://uptec-ddev.ddev.site' 'https://uptec-ddev.ddev.site' --all-tables
 
 echo "URLs updated successfully. Proceeding with user setup..."
 ddev wp user update dev --user_pass="cafetaria17" --allow-root

@@ -556,7 +556,7 @@
 								attachment_id = attachment.attributes.id,
 								mime = attachment.attributes.mime,
 								regex = /^image\/(?:jpe?g|png|gif|x-icon)$/i;
-						if ( mime.match(regex) ) {
+						if ( mime.match(regex) || mime == 'image/svg+xml' ) {
 							btnContent += '<div class="option-tree-ui-image-wrap"><img src="'+href+'" alt="" /></div>';
 						}
 						btnContent += '<a href="javascript:(void);" class="option-tree-ui-remove-media option-tree-ui-button button button-secondary light" title="'+option_tree.remove_media_text+'"><span class="icon ot-icon-minus-circle"></span>'+option_tree.remove_media_text+'</a>';

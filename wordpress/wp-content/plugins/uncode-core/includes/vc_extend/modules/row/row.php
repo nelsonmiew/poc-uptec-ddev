@@ -216,10 +216,6 @@ $row_params = array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
 		"group" => esc_html__("Style", 'uncode-core'),
-		"dependency" => array(
-			'element' => "back_image",
-			'not_empty' => true
-		) ,
 	) ,
 	array(
 		"type" => "dropdown",
@@ -1492,6 +1488,530 @@ $row_params = array(
 		) ,
 	) ,
 	array(
+		'type' => 'dropdown',
+		'heading' => esc_html__('Animation', 'uncode-core') ,
+		'param_name' => 'css_animation',
+		'value' => array(
+			esc_html__('No', 'uncode-core') => '',
+			esc_html__('Row', 'uncode-core') => 'scroll-trigger',
+			esc_html__('Inner Rows', 'uncode-core') => 'inner-rows',
+		) ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		'description' => esc_html__('Choose the type of scroll-triggered animation. Select \'Row\' to apply animations to Row properties or \'Inner Rows\' to define animations for Inner Rows.', 'uncode-core')
+	) ,
+	array(
+		"type" => 'checkbox',
+		"heading" => esc_html__("Sticky Scroll", 'uncode-core') ,
+		"param_name" => "sticky_scroll",
+		"description" => esc_html__("Sets a sticky animation for the Row. Normal scroll behavior resumes after the animation ends.", 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"value" => Array(
+			'' => 'yes'
+		) ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'value' => array('scroll-trigger')
+		) ,
+	) ,
+	array(
+		"type" => 'checkbox',
+		"heading" => esc_html__("Remove Space", 'uncode-core') ,
+		"param_name" => "sticky_no_space",
+		"description" => esc_html__("When using the Sticky Scroll option, this removes the Row's height. This is useful for creating overlay effects.", 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"value" => Array(
+			'' => 'yes'
+		) ,
+		"dependency" => array(
+			'element' => "sticky_scroll",
+			'not_empty' => true
+		) ,
+	) ,
+	array(
+		'type' => 'dropdown',
+		'heading' => esc_html__('Target', 'uncode-core') ,
+		'param_name' => 'animate_el',
+		'value' => array(
+			esc_html__('Content and Background', 'uncode-core') => '',
+			esc_html__('Content', 'uncode-core') => 'content',
+			esc_html__('Background Media', 'uncode-core') => 'bg',
+		) ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		'description' => esc_html__('Specify which part of the Row to animate. Options include Content, Background, or Background Media.', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'value' => array('scroll-trigger')
+		) ,
+	) ,
+	array(
+		'type' => 'dropdown',
+		'heading' => esc_html__('State', 'uncode-core') ,
+		'param_name' => 'animation_state',
+		'value' => array(
+			esc_html__('Start', 'uncode-core') => '',
+			esc_html__('End', 'uncode-core') => 'end',
+		) ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		'description' => esc_html__('Defines whether the animation\'s specified values represent the starting point (\'Start\') or the ending point (\'End\'). If \'Start\' is chosen, the Row will appear normal at the maximum animation point. If \'End\' is chosen, the Row starts with its normal appearance and applies the changed property values at the maximum animation point.', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'value' => array('scroll-trigger', 'inner-rows')
+		) ,
+	) ,
+	array(
+		'type' => 'dropdown',
+		'heading' => esc_html__('Element', 'uncode-core') ,
+		'param_name' => 'animation_target',
+		'value' => array(
+			esc_html__('Element', 'uncode-core') => '',
+			esc_html__('Mask', 'uncode-core') => 'mask',
+		) ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		'description' => esc_html__('Choose whether to apply the animation to the element itself or its Mask. Using a Mask can create appearance effects based on the Row’s dimensions. Note that not all properties are available with the Mask method.', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'value' => array('scroll-trigger', 'inner-rows')
+		) ,
+	) ,
+	array(
+		'type' => 'dropdown',
+		'heading' => esc_html__('Origin', 'uncode-core') ,
+		'param_name' => 'animation_origin',
+		'value' => array(
+			esc_html__('Top Center', 'uncode-core') => '',
+			esc_html__('Top Left', 'uncode-core') => 'top left',
+			esc_html__('Top Right', 'uncode-core') => 'top right',
+			esc_html__('Center', 'uncode-core') => 'center',
+			esc_html__('Middle Left', 'uncode-core') => 'center left',
+			esc_html__('Middle Right', 'uncode-core') => 'center right',
+			esc_html__('Bottom Center', 'uncode-core') => 'bottom center',
+			esc_html__('Bottom Left', 'uncode-core') => 'bottom left',
+			esc_html__('Bottom Right', 'uncode-core') => 'bottom right',
+		) ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		'description' => esc_html__('Sets the starting point of the animation. Adjusting this can significantly impact the animation depending on the properties being animated.', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'value' => array('scroll-trigger', 'inner-rows')
+		) ,
+	) ,
+	array(
+		'type' => 'dropdown',
+		'heading' => esc_html__('Scale Method', 'uncode-core') ,
+		'param_name' => 'animation_scale',
+		'value' => array(
+			esc_html__('Percentage', 'uncode-core') => '',
+			esc_html__('Limit Width', 'uncode-core') => 'auto',
+		) ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		'description' => esc_html__('Determines whether the scale value adjusts fluidly based on the page\'s total width or is linked to the Limit Width value (the content width).', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "animation_target",
+			'is_empty' => true
+		) ,
+	) ,
+	array(
+		"type" => "type_numeric_slider",
+		'heading' => esc_html__('Scale', 'uncode-core') ,
+		'param_name' => 'animation_scale_val',
+		"min" => 0,
+		"max" => 200,
+		"step" => 1,
+		"value" => 100,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		'description' => esc_html__('Sets the scale value from 0 to 200, with 100 as the default.', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "animation_scale",
+			'is_empty' => true
+		) ,
+	) ,
+	array(
+		"type" => 'checkbox',
+		"heading" => esc_html__("Scale Steps", 'uncode-core') ,
+		"param_name" => "animation_scale_step",
+		"description" => esc_html__("Enable progressive scaling for a stepped visual effect.", 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"value" => Array(
+			'' => 'yes'
+		) ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'value' => array('inner-rows')
+		) ,
+	) ,
+	array(
+		'type' => 'dropdown',
+		'heading' => esc_html__('Scale', 'uncode-core') ,
+		'param_name' => 'animation_mask',
+		'value' => array(
+			esc_html__('Horizontal', 'uncode-core') => '',
+			esc_html__('Both Axis', 'uncode-core') => 'both',
+			esc_html__('Auto', 'uncode-core') => 'auto',
+		) ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		'description' => esc_html__('Sets the scale value from 0 to 200, with 100 as the default.', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "animation_target",
+			'not_empty' => true
+		) ,
+	) ,
+	array(
+		"type" => "type_numeric_slider",
+		'heading' => esc_html__('Scale Mask', 'uncode-core') ,
+		'param_name' => 'animation_mask_val',
+		"min" => 0,
+		"max" => 100,
+		"step" => 1,
+		"value" => 50,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		'description' => esc_html__('Sets the scale masl value from 0 to 200, with 100 as the default.', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "animation_mask",
+			'value' => array('', 'both')
+		) ,
+	) ,
+	array(
+		"type" => "type_numeric_slider",
+		"heading" => esc_html__("Opacity", 'uncode-core') ,
+		"param_name" => "animation_opacity",
+		"min" => 0,
+		"max" => 100,
+		"step" => 1,
+		"value" => 100,
+		'description' => esc_html__('Sets the opacity value from 0 to 100, with 100 as the default.', 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'value' => array('scroll-trigger', 'inner-rows')
+		) ,
+	) ,
+	array(
+		"type" => "type_numeric_slider",
+		"heading" => esc_html__("X-Move", 'uncode-core') ,
+		"param_name" => "animation_x",
+		"min" => -100,
+		"max" => 100,
+		"step" => 1,
+		"value" => 0,
+		'description' => esc_html__('Adjusts horizontal movement on the X-axis from -100 to 100, with 0 as the default.', 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "animation_target",
+			'is_empty' => true
+		) ,
+	) ,
+	array(
+		"type" => 'checkbox',
+		"heading" => esc_html__("X-Move Alternate", 'uncode-core') ,
+		"param_name" => "animation_x_alt",
+		"description" => esc_html__("Use to make the value of X-Move alternately one the opposite of the other. This option causes, for example, one element to enter from the right and one element from the left of the viewport, etc.", 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"value" => Array(
+			'' => 'yes'
+		) ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'value' => array('inner-rows')
+		) ,
+	) ,
+	array(
+		"type" => "type_numeric_slider",
+		"heading" => esc_html__("Y-Move", 'uncode-core') ,
+		"param_name" => "animation_y",
+		"min" => -100,
+		"max" => 100,
+		"step" => 1,
+		"value" => 0,
+		'description' => esc_html__('Adjusts vertical movement on the Y-axis from -100 to 100, with 0 as the default.', 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "animation_target",
+			'is_empty' => true
+		) ,
+	) ,
+	array(
+		"type" => "type_numeric_slider",
+		"heading" => esc_html__("Blur", 'uncode-core') ,
+		"param_name" => "animation_blur",
+		"min" => 0,
+		"max" => 100,
+		"step" => 1,
+		"value" => 0,
+		'description' => esc_html__('Sets the blur intensity from 0 to 100, with 0 as the default. Note that this effect can be resource-intensive and may slow down rendering in some browsers.', 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'value' => array('scroll-trigger', 'inner-rows')
+		) ,
+	) ,
+	array(
+		"type" => "type_numeric_slider",
+		"heading" => esc_html__("Rotate", 'uncode-core') ,
+		"param_name" => "animation_rotate",
+		"min" => -90,
+		"max" => 90,
+		"step" => 1,
+		"value" => 0,
+		'description' => esc_html__('Defines the rotation angle from -100 to 100, with 0 as the default. The rotation effect depends on the Origin property. Setting a value other than 0 disables the Perspective option, as they are not compatible.', 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "animation_target",
+			'is_empty' => true
+		) ,
+	) ,
+	array(
+		"type" => "type_numeric_slider",
+		"heading" => esc_html__("Perspective", 'uncode-core') ,
+		"param_name" => "animation_perspective",
+		"min" => -90,
+		"max" => 90,
+		"step" => 1,
+		"value" => 0,
+		'description' => esc_html__('Sets the 3D rotation value from -100 to 100, with 0 as the default. The effect depends on the Origin property.', 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "animation_rotate",
+			'value' => array('0')
+		) ,
+	) ,
+	array(
+		"type" => 'checkbox',
+		"heading" => esc_html__("Rotate / Perspective Alternate", 'uncode-core') ,
+		"param_name" => "animation_rotate_alt",
+		"description" => esc_html__("Use to make the value of the Rotate or Perspective options alternately one the opposite of the other. This option causes, for example, one element to rotate from one site and one element from the other, etc.", 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"value" => Array(
+			'' => 'yes'
+		) ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'value' => array('inner-rows')
+		) ,
+	) ,
+	array(
+		'type' => 'textfield',
+		"heading" => esc_html__("Border radius", 'uncode-core') ,
+		"param_name" => "animation_radius",
+		'description' => esc_html__('Defines the border-radius value. Acceptable formats include px, vw, em, etc. (e.g., 27px, 2vw, 10em).', 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'value' => array('scroll-trigger', 'inner-rows')
+		) ,
+	) ,
+	array(
+		"type" => "dropdown",
+		"heading" => esc_html__("Start", 'uncode-core') ,
+		"param_name" => "animation_top_bottom",
+		"value" => array(
+			esc_html__('Top', 'uncode-core') => '',
+			esc_html__('Bottom', 'uncode-core') => 'bottom',
+		) ,
+		'description' => esc_html__('Specifies the point in the viewport where the animation begins.', 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'value' => array('scroll-trigger')
+		) ,
+	) ,
+	array(
+		"type" => "type_numeric_slider",
+		"heading" => esc_html__("Start From", 'uncode-core') ,
+		"param_name" => "animation_offset_top",
+		"min" => 0,
+		"max" => 100,
+		"step" => 1,
+		"value" => 100,
+		'description' => esc_html__('Defines the viewport position where the animation starts. For example, if Start is set to \'Top\' and the value is 0, the animation begins when the Row touches the top of the browser. If the value is 100, the animation starts when the Row reaches the bottom of the browser.', 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'value' => array('scroll-trigger')
+		) ,
+	) ,
+	array(
+		"type" => "dropdown",
+		"heading" => esc_html__("Starting Point", 'uncode-core') ,
+		"param_name" => "animation_start_point",
+		"value" => array(
+			esc_html__('Top', 'uncode-core') => '',
+			esc_html__('Middle', 'uncode-core') => 'center',
+			esc_html__('Bottom', 'uncode-core') => 'bottom',
+		) ,
+		'description' => esc_html__('Set where the animation begins within the viewport.', 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'value' => array('inner-rows')
+		) ,
+	) ,
+	array(
+		'type' => 'textfield',
+		'heading' => esc_html__('Offset', 'uncode-core') ,
+		'param_name' => 'animation_rows_offset',
+		'description' => esc_html__('Progressive value in pixels that added to Top or Bottom to create a stepped effect.', 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "animation_start_point",
+			'value' => array('', 'bottom')
+		) ,
+	) ,
+	array(
+		"type" => "type_numeric_slider",
+		"heading" => esc_html__("Scroll Length", 'uncode-core') ,
+		"param_name" => "animation_offset_bottom",
+		"min" => 0,
+		"max" => 200,
+		"step" => 1,
+		"value" => 0,
+		'description' => esc_html__('Sets the animation duration from 0 to 200, with 100 as the default. A value of 100 corresponds to 100% of the browser height. Values below zero activate the Auto setting, which automatically calculates the animation length based on the element\'s height.', 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'value' => array('scroll-trigger')
+		) ,
+	) ,
+	array(
+		"type" => "type_numeric_slider",
+		"heading" => esc_html__("Inner Vertical Spacing", 'uncode-core') ,
+		"param_name" => "animation_inner_space",
+		"min" => 0,
+		"max" => 100,
+		"step" => 1,
+		"value" => 0,
+		'description' => esc_html__('Defines the vertical space between varire Inner Rows with a Viewport Height value from 0 to 100.', 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'value' => array('inner-rows')
+		) ,
+	) ,
+	array(
+		"type" => "dropdown",
+		"heading" => esc_html__("Scroll options", 'uncode-core') ,
+		"param_name" => "animation_scroll_options",
+		"description" => esc_html__("Configure how animations behave during scrolling. 'Parent sticky and animated': Inner Rows remain fixed within the Parent Row. 'Parent sticky, itself animated': Inner Rows animate only within their height. 'Itself sticky and animated': Parent Row scrolls while Inner Rows remain sticky.", 'uncode-core') ,
+		"value" => array(
+			esc_html__('Parent sticky and animated', 'uncode-core') => '',
+			esc_html__('Parent sticky, itself animated', 'uncode-core') => 'parent-sticky',
+			esc_html__('Itself sticky and animated', 'uncode-core') => 'no',
+		) ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'value' => array('inner-rows')
+		) ,
+	) ,
+	array(
+		"type" => 'checkbox',
+		"heading" => esc_html__("Do Not Animate State Item", 'uncode-core') ,
+		"param_name" => "no_animation_last",
+		"description" => esc_html__("Prevents the first or last item from animating (based on the State option).", 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"value" => Array(
+			'' => 'yes'
+		) ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'value' => array('inner-rows')
+		) ,
+	) ,
+	array(
+		"type" => "type_numeric_slider",
+		"heading" => esc_html__("Anticipate Second Card", 'uncode-core') ,
+		"param_name" => "animation_anticipate",
+		"min" => 0,
+		"max" => 100,
+		"step" => 1,
+		"value" => 0,
+		'description' => esc_html__('Adjust the timing of the second card’s appearance for fine-tuning.', 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "no_animation_last",
+			'not_empty' => true
+		) ,
+	) ,
+	// array(
+	// 	"type" => 'checkbox',
+	// 	"heading" => esc_html__("Sticky Last", 'uncode-core') ,
+	// 	"param_name" => "animation_last_sticky",
+	// 	"description" => esc_html__("Activate to make the last Row sticky during animations (available only with the 'End' state) [...]", 'uncode-core') ,
+	// 	'group' => esc_html__('Animation', 'uncode-core') ,
+	// 	"value" => Array(
+	// 		'' => 'yes'
+	// 	) ,
+	// 	"dependency" => array(
+	// 		'element' => "css_animation",
+	// 		'value' => array('inner-rows')
+	// 	) ,
+	// ) ,
+	array(
+		"type" => 'checkbox',
+		"heading" => esc_html__("Safe Scroll", 'uncode-core') ,
+		"param_name" => "animation_safe",
+		"description" => esc_html__("Adjusts the scroll to ensure the animation completes fully before the Row exits the viewport. This is especially useful for animating a Footer.", 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"value" => Array(
+			'' => 'yes'
+		) ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'value' => array('scroll-trigger')
+		) ,
+	) ,
+	array(
+		"type" => "dropdown",
+		"heading" => esc_html__("Ease", 'uncode-core') ,
+		"param_name" => "animation_ease_out",
+		"description" => esc_html__("Set the easing type for smoother animations.", 'uncode-core') ,
+		"value" => array(
+			esc_html__('None', 'uncode-core') => '',
+			esc_html__('Power 1', 'uncode-core') => 'power1',
+			esc_html__('Power 2', 'uncode-core') => 'power2',
+			esc_html__('Power 3', 'uncode-core') => 'power3',
+			esc_html__('Power 4', 'uncode-core') => 'power4',
+			esc_html__('Back', 'uncode-core') => 'back',
+			esc_html__('Bounce', 'uncode-core') => 'bounce',
+			esc_html__('Circ', 'uncode-core') => 'circ',
+			esc_html__('Elastic', 'uncode-core') => 'elastic',
+			esc_html__('Expo', 'uncode-core') => 'expo',
+			esc_html__('Sine', 'uncode-core') => 'sine',
+		) ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'value' => array('scroll-trigger', 'inner-rows')
+		) ,
+	) ,
+	array(
+		"type" => 'checkbox',
+		"heading" => esc_html__("Disable Mobile", 'uncode-core') ,
+		"param_name" => "disable_mobile",
+		"description" => esc_html__("Turn off animation effects on mobile devices.", 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"value" => Array(
+			'' => 'yes'
+		) ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'value' => array('scroll-trigger', 'inner-rows')
+		) ,
+	) ,
+	array(
+		"type" => 'checkbox',
+		"heading" => esc_html__("Disable Tablet", 'uncode-core') ,
+		"param_name" => "disable_tablet",
+		"description" => esc_html__("Turn off animation effects on tablet devices.", 'uncode-core') ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		"value" => Array(
+			'' => 'yes'
+		) ,
+		"dependency" => array(
+			'element' => "disable_mobile",
+			'not_empty' => true
+		) ,
+	) ,
+	array(
 		"type" => 'checkbox',
 		"heading" => esc_html__("Sticky", 'uncode-core') ,
 		"param_name" => "sticky",
@@ -1499,6 +2019,10 @@ $row_params = array(
 		'group' => esc_html__('Extra', 'uncode-core') ,
 		"value" => Array(
 			'' => 'yes'
+		) ,
+		"dependency" => array(
+			'element' => "css_animation",
+			'is_empty' => true
 		) ,
 	) ,
 	array(
@@ -1562,7 +2086,7 @@ $row_params = array(
 		"step" => 1,
 		"value" => 0,
 		"description" => esc_html__("Set the difference between the scrolling speed of the row's content and its container to create the parallax effect. NB. You must enable smooth scrolling in the Theme Options or Page Options.", 'uncode-core') ,
-		"group" => esc_html__("Extra", 'uncode-core')
+		"group" => esc_html__("Extra", 'uncode-core'),		
 	) ,
 	array(
 		"type" => "checkbox",

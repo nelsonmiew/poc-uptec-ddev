@@ -390,7 +390,9 @@ if ( ! function_exists( 'ot_type_upload' ) ) {
 
             $post = get_post($field_value);
 
-			if ( ! $has_correct_dimensions ) {
+			if ( isset( $media_info ) && isset( $media_info->post_mime_type ) && $media_info->post_mime_type === 'image/svg+xml' ) {
+				echo '<div class="option-tree-ui-image-wrap"><img src="' . esc_url( $field_value ) . '" alt="" /></div>';
+			} else if ( ! $has_correct_dimensions ) {
 				echo '<div class="option-tree-ui-image-wrap">' . sprintf( wp_kses_post( __( 'Please enter valid width and height measurements for your SVG. <a href="%s" target="_blank">Read More...</a>', 'uncode-core' ) ), 'https://support.undsgn.com/hc/en-us/articles/214001865#notes' ) . '</div>';
 			} else if (isset($post->post_mime_type) && $post->post_mime_type === 'oembed/svg') {
 				echo '<div class="option-tree-ui-image-wrap">' . $post->post_content . '</div>';

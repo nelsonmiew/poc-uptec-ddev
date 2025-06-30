@@ -207,19 +207,23 @@ function uncode_core_vc_params_get_css_animation( $with_parallax = false ) {
 		'value' => array(
 			esc_html__('No', 'uncode-core') => '',
 			esc_html__('Opacity', 'uncode-core') => 'alpha-anim',
-			esc_html__('Zoom in', 'uncode-core') => 'zoom-in',
-			esc_html__('Zoom out', 'uncode-core') => 'zoom-out',
-			esc_html__('Top to bottom', 'uncode-core') => 'top-t-bottom',
-			esc_html__('Bottom to top', 'uncode-core') => 'bottom-t-top',
-			esc_html__('Left to right', 'uncode-core') => 'left-t-right',
-			esc_html__('Right to left', 'uncode-core') => 'right-t-left',
+			esc_html__('Zoom In', 'uncode-core') => 'zoom-in',
+			esc_html__('Zoom Out', 'uncode-core') => 'zoom-out',
+			esc_html__('Top to Bottom', 'uncode-core') => 'top-t-bottom',
+			esc_html__('Bottom to Top', 'uncode-core') => 'bottom-t-top',
+			esc_html__('Left to Right', 'uncode-core') => 'left-t-right',
+			esc_html__('Right to Left', 'uncode-core') => 'right-t-left',
 		) ,
 		'group' => esc_html__('Animation', 'uncode-core') ,
 		'description' => esc_html__('Specify the entrance animation.', 'uncode-core')
 	);
 
-	if ( $with_parallax ) {
+	if ( $with_parallax !== false ) {
 		$add_css_animation['value'][esc_html__('Parallax', 'uncode-core')] = 'parallax';
+	}
+
+	if ( $with_parallax === 'mask' ) {
+		$add_css_animation['value'][esc_html__('Mask', 'uncode-core')] = 'mask';
 	}
 
 	return $add_css_animation;
@@ -270,11 +274,14 @@ function uncode_core_vc_params_get_css_animation_delay() {
 				'left-t-right',
 				'right-t-left',
 				'curtain',
+				'perspective',
 				'curtain-words',
+				'perspective-words',
 				'single-curtain',
 				'single-slide',
 				'single-slide-opposite',
 				'typewriter',
+				'mask',
 			),
 		) ,
 	);
@@ -327,11 +334,14 @@ function uncode_core_vc_params_get_css_animation_speed() {
 				'left-t-right',
 				'right-t-left',
 				'curtain',
+				'perspective',
 				'curtain-words',
+				'perspective-words',
 				'single-curtain',
 				'single-slide',
 				'single-slide-opposite',
 				'typewriter',
+				'mask',
 			),
 		) ,
 	);
@@ -374,7 +384,7 @@ function uncode_core_vc_params_get_css_background_attachment() {
 	$add_background_attachment = array(
 		'type' => 'dropdown',
 		"heading" => esc_html__("Background Attachment", 'uncode-core') ,
-		"description" => wp_kses(__("Define the background attachment. <a href='http://www.w3schools.com/cssref/pr_background-attachment.asp' target='_blank'>Check this for reference</a>", 'uncode-core'), array( 'a' => array( 'href' => array(),'target' => array() ) ) ) ,
+		"description" => wp_kses(__("Define the background attachment. <a href='http://www.w3schools.com/cssref/pr_background-attachment.asp' target='_blank'>Check this for reference</a>. NB: 'Fixed' attachment is replaced with 'Scroll' on mobile because most browsers disable it to optimize performance.", 'uncode-core'), array( 'a' => array( 'href' => array(),'target' => array() ) ) ) ,
 		'param_name' => 'back_attachment',
 		'value' => array(
 			esc_html__('Select...', 'uncode-core') => '',
@@ -741,7 +751,20 @@ function uncode_core_vc_params_get_button_options( $uncode_colors, $size_arr, $h
 				esc_html__('None', 'uncode-core') => '',
 				esc_html__('Add to Cart for Single Product (WooCommerce)', 'uncode-core') => 'add-to-cart',
 				esc_html__('Link to Product for Quick-View (WooCommerce)', 'uncode-core') => 'permalink',
+				esc_html__('Open Lightbox Gallery', 'uncode-core') => 'gallery',
+				esc_html__('Ajax Filters', 'uncode-core') => 'ajax_filters',
 			) ,
+		) ,
+		array(
+			"heading" => esc_html__("Target", 'uncode-core') ,
+			'admin_label' => true,
+			"type" => "textfield",
+			"param_name" => "target",
+			"description" => esc_html__("[...]", 'uncode-core') ,
+			'dependency' => array(
+				'element' => 'dynamic',
+				'value' => array( 'gallery' ),
+			)
 		) ,
 		array(
 			"type" => 'dropdown',
@@ -1101,7 +1124,7 @@ function uncode_core_vc_params_get_button_options( $uncode_colors, $size_arr, $h
 			) ,
 			'dependency' => array(
 				'element' => 'dynamic',
-				'value' => array( '', 'permalink' ),
+				'value' => array( '', 'permalink', 'gallery' ),
 			)
 		) ,
 		array(
@@ -2313,4 +2336,40 @@ function uncode_core_vc_params_get_cb_dropdown( $params ) {
 	$params['value'] = $content_blocks;
 
 	return $params;
+}
+
+/**
+ * Get CSS animation delay
+ */
+function uncode_core_vc_params_get_gsap_easing() {
+	$delay = array(
+		'type' => 'dropdown',
+		'heading' => esc_html__('Animation easing', 'uncode-core') ,
+		'param_name' => 'animation_easing',
+		'value' => array(
+			esc_html__('Default', 'uncode-core') => '',
+			esc_html__('Power 1', 'uncode-core') => 'power1',
+			esc_html__('Power 2', 'uncode-core') => 'power2',
+			esc_html__('Power 3', 'uncode-core') => 'power3',
+			esc_html__('Power 4', 'uncode-core') => 'power4',
+			esc_html__('Back', 'uncode-core') => 'back',
+			esc_html__('Bounce', 'uncode-core') => 'bounce',
+			esc_html__('Circ', 'uncode-core') => 'circ',
+			esc_html__('Elastic', 'uncode-core') => 'elastic',
+			esc_html__('Expo', 'uncode-core') => 'expo',
+			esc_html__('Sine', 'uncode-core') => 'sine',
+			esc_html__('None', 'uncode-core') => 'none',
+		) ,
+		'group' => esc_html__('Animation', 'uncode-core') ,
+		'description' => esc_html__('Specify the entrance animation easing.', 'uncode-core') ,
+		'admin_label' => true,
+		'dependency' => array(
+			'element' => 'css_animation',
+			'value' => array(
+				'mask',
+			),
+		) ,
+	);
+
+	return $delay;
 }

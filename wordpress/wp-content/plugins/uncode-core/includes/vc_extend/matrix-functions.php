@@ -216,7 +216,7 @@ function uncode_index_get_query() {
 	}
 
 	$html = str_replace('\"', '"', $html);
-	echo do_shortcode( shortcode_unautop( $html ) );
+	echo $html;
 
 	remove_filter( 'wp_kses_allowed_html', 'uncode_core_single_matrix_allowed_html', 10, 2);
 
@@ -280,7 +280,7 @@ function uncode_get_medias() {
 	}
 
 	$html = str_replace('\"', '"', $html);
-	echo do_shortcode( shortcode_unautop( $html ) );
+	echo $html;
 
 	remove_filter( 'wp_kses_allowed_html', 'uncode_core_single_matrix_allowed_html', 10, 2);
 

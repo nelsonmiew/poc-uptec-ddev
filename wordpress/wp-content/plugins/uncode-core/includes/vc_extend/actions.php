@@ -223,6 +223,7 @@ add_action('wp_ajax_uncode_get_media_alt', 'uncode_get_media_alt_by_id');
  */
 function uncode_vc_remove_option() {
     delete_option( 'wpb_js_local_google_fonts' );
+	delete_option( 'wpb_js_beta_version' );
 }
 add_action( 'admin_init', 'uncode_vc_remove_option' );
 

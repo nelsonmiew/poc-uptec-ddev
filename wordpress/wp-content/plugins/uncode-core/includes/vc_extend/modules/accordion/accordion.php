@@ -236,6 +236,19 @@ $params = array(
 			'not_empty' => true
 		) ,
 	) ,
+	array(
+		"type" => 'dropdown',
+		"heading" => esc_html__("Headings semantic", 'uncode-core') ,
+		"param_name" => "heading_semantic",
+		"description" => esc_html__("Specify element tag.", 'uncode-core') ,
+		"value" => $heading_semantic,
+		'std' => 'p',
+		"group" => esc_html__("Typography", 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'typography',
+			'value' => 'advanced'
+		) ,
+	) ,
 );
 vc_map(array(
 	'name' => esc_html__('Accordion', 'uncode-core') ,

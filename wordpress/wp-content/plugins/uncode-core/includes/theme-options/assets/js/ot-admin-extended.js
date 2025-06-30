@@ -222,7 +222,7 @@
 						regex = /^image\/(?:jpe?g|png|url|gif|x-icon)$/i;
 					if (mime == 'oembed/svg') {
 						btnContent += '<div class="option-tree-ui-image-wrap">' + attachment.attributes.description + '</div>';
-					} else if (mime.match(regex)) {
+					} else if (mime.match(regex) || mime == 'image/svg+xml') {
 						btnContent += '<div class="option-tree-ui-image-wrap"><img src="' + href + '" alt="" /></div>';
 					} else {
 						btnContent += '<div class="option-tree-ui-image-wrap"><div class="oembed"><span class="spinner" style="display: block; float: left;"></span></div><div class="oembed_code" style="display: none;">' + href + '</div></div>';

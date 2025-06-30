@@ -302,6 +302,7 @@ jQuery(document).ready(function($) {
 					row.find('.vc_row_layouts').hide();
 					row.find('.vc_column-edit').hide();
 					row.find('.vc_control-column').hide();
+					row.find('.vc_row_color').hide();
 					row.addClass('no-container-settings');
 				} else {
 					wrap.removeAttr('style');
@@ -310,6 +311,7 @@ jQuery(document).ready(function($) {
 					row.find('.vc_row_layouts').show();
 					row.find('.vc_column-edit').show();
 					row.find('.vc_control-column').show();
+					row.find('.vc_row_color').show();
 					row.removeClass('no-container-settings');
 				}
 			}

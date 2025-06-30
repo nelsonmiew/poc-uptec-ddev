@@ -26,7 +26,7 @@ if (!function_exists('vc_miew_footer_container_output')){
 				$links .= '<div class="announcements"><a class="listing_text uppercase" href="javascript:;" onClick="openNewsletter()">'.__('CLICK TO SUBSCRIBE TO OUR NEWSLETTER', 'uncode').'</a></div>';
 			}
 		}
-		$innerHtml = '<div class="announcements_wrapper">
+		$innerHtml = '<div class="announcements_wrapper">https://uptec.up.pt/be-part
 			<div class="announcements_slide">
 				<div class="announcements_content">	
 					'.$links.'

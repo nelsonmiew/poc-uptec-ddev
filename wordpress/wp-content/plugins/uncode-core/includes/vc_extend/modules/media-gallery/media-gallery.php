@@ -204,6 +204,14 @@ $media_gallery_params = array(
 		'group' => esc_html__('General', 'uncode-core') ,
 	) ,
 	array(
+		'type' => 'textfield',
+		'heading' => esc_html__('Visible items', 'uncode-core') ,
+		'param_name' => 'gallery_visible',
+		'value' => '',
+		'description' => esc_html__('[...]', 'uncode-core') ,
+		'group' => esc_html__('General', 'uncode-core') ,
+	) ,
+	array(
 		'type' => 'dropdown',
 		'heading' => esc_html__('Items', 'uncode-core') ,
 		'param_name' => 'grid_items',
@@ -1202,9 +1210,9 @@ $media_gallery_params = array(
 	) ,
 	array(
 		"type" => 'checkbox',
-		"heading" => esc_html__("Blurred margins", 'uncode-core') ,
+		"heading" => esc_html__("Blurred Edges", 'uncode-core') ,
 		"param_name" => "marquee_blur",
-		"description" => esc_html__("[...]", 'uncode-core') ,
+		"description" => esc_html__("Activate to have the edges of the Marquee blurred/shaded.", 'uncode-core') ,
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
@@ -2264,9 +2272,10 @@ $media_gallery_params = array(
 		"type" => 'dropdown',
 		"heading" => esc_html__("Image animation", 'uncode-core') ,
 		"param_name" => "single_image_anim",
-		"description" => esc_html__("Activate this to animate the image on mouse over.", 'uncode-core') ,
+		"description" => esc_html__("Enable this option to define the type of image animation on mouse hover or scroll.", 'uncode-core') ,
 		"value" => array(
-			esc_html__('Animated', 'uncode-core') => 'yes',
+			esc_html__('Hover', 'uncode-core') => 'yes',
+			esc_html__('Scroll', 'uncode-core') => 'scroll',
 			esc_html__('Static', 'uncode-core') => 'no',
 		) ,
 		"group" => esc_html__("Blocks", 'uncode-core') ,
@@ -2283,6 +2292,37 @@ $media_gallery_params = array(
 		'dependency' => array(
 			'element' => 'single_image_anim',
 			'value' => array('yes'),
+		)
+	) ,
+	array(
+		"type" => 'dropdown',
+		"heading" => esc_html__("Image animation on scroll", 'uncode-core') ,
+		"param_name" => "single_image_scroll",
+		"description" => esc_html__("Define the effect of the image animations on scroll.", 'uncode-core') ,
+		"value" => array(
+			esc_html__('Parallax', 'uncode-core') => 'parallax',
+			esc_html__('Zoom', 'uncode-core') => 'zoom',
+			esc_html__('Parallax and Zoom', 'uncode-core') => 'both',
+		) ,
+		"group" => esc_html__("Blocks", 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'single_image_anim',
+			'value' => array('scroll'),
+		)
+	) ,
+	array(
+		"type" => "type_numeric_slider",
+		"heading" => esc_html__("Scroll animation value", 'uncode-core') ,
+		"param_name" => "single_image_scroll_val",
+		"min" => 1,
+		"max" => 10,
+		"step" => 1,
+		"value" => 5,
+		"description" => esc_html__("Define the scroll animation value.", 'uncode-core') ,
+		"group" => esc_html__("Blocks", 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'single_image_scroll',
+			'not_empty' => true,
 		)
 	) ,
 	array(
@@ -2610,7 +2650,7 @@ $media_gallery_params = array(
 		) ,
 		"group" => esc_html__("Blocks", 'uncode-core') ,
 	) ,
-	array_merge($add_css_animation_w_parallax, array(
+	array_merge($add_css_animation_w_mask, array(
 		"group" => esc_html__("Blocks", 'uncode-core') ,
 		"param_name" => 'single_css_animation',
 		'dependency' => array(
@@ -2621,7 +2661,9 @@ $media_gallery_params = array(
 				'carousel',
 				'justified',
 				'custom_grid',
-				'sticky-scroll'
+				'sticky-scroll',
+				'mask',
+				'linear'
 			)
 		) ,
 	)) ,
@@ -2644,6 +2686,7 @@ $media_gallery_params = array(
 				'single-slide',
 				'single-slide-opposite',
 				'typewriter',
+				'mask'
 			)
 		)
 	)) ,
@@ -2657,6 +2700,56 @@ $media_gallery_params = array(
 	)) ,
 	$add_parallax_options,
 	$add_parallax_centered_options,
+	array_merge(
+		$add_animation_easing,
+		array(
+			"group" => esc_html__("Blocks", 'uncode-core'),
+			"param_name" => 'single_animation_easing',
+			'dependency' => array(
+				'element' => 'single_css_animation',
+				'value' => array(
+					'mask',
+				),
+			) ,
+		)
+	),
+	array(
+		"type" => "dropdown",
+		"heading" => esc_html__("Animation Direction", 'uncode-core') ,
+		"description" => esc_html__("Define the animation direction.", 'uncode-core') ,
+		"param_name" => "single_mask_direction",
+		"group" => esc_html__("Blocks", 'uncode-core') ,
+		"value" => array(
+			esc_html__('Top to Bottom', 'uncode-core') => '',
+			esc_html__('Bottom to Top', 'uncode-core') => 'bottom-t-top',
+		) ,
+		'dependency' => array(
+			'element' => 'single_css_animation',
+			'value' => 'mask' ,
+		) ,
+	) ,
+	array(
+		"type" => "dropdown",
+		"heading" => esc_html__("Animation background", 'uncode-core') ,
+		"description" => esc_html__("Defines whether to activate the animation for the colored background as well and specifies its delay.", 'uncode-core') ,
+		"param_name" => "single_bg_delay",
+		"group" => esc_html__("Blocks", 'uncode-core') ,
+		"value" => array(
+			esc_html__('No', 'uncode-core') => '',
+			esc_html__('0.25x Delay', 'uncode-core') => '0.25',
+			esc_html__('0.5x Delay', 'uncode-core') => '0.5',
+			esc_html__('0.75x Delay', 'uncode-core') => '0.75',
+			esc_html__('1x Delay', 'uncode-core') => '1',
+			esc_html__('1.25x Delay', 'uncode-core') => '1.25',
+			esc_html__('1.5x Delay', 'uncode-core') => '1.5',
+			esc_html__('1.75x Delay', 'uncode-core') => '1.75',
+			esc_html__('2x Delay', 'uncode-core') => '2',
+		) ,
+		'dependency' => array(
+			'element' => 'single_css_animation',
+			'value' => 'mask' ,
+		) ,
+	) ,
 	array(
 		"type" => "dropdown",
 		"heading" => esc_html__("Animation sequential", 'uncode-core') ,
