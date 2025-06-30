@@ -87,8 +87,6 @@ class Uncode_Toolkit_Privacy {
 		add_action( 'wp_footer', array( $plugin_public, 'privacy_preferences_modal' ) );
 		add_action( 'admin_post_uncode_privacy_update_privacy_preferences', array( $plugin_public, 'update_privacy_preferences' ) );
 		add_action( 'admin_post_nopriv_uncode_privacy_update_privacy_preferences', array( $plugin_public, 'update_privacy_preferences' ) );
-		add_action( 'wp_ajax_uncode_privacy_init_session', array( $this, 'init_session' ) );
-		add_action( 'wp_ajax_nopriv_uncode_privacy_init_session', array( $this, 'init_session' ) );
 	}
 
 	/**
@@ -110,38 +108,6 @@ class Uncode_Toolkit_Privacy {
 	 */
 	public function get_version() {
 		return $this->version;
-	}
-
-	/**
-	 * Init session handler.
-	 */
-	public function init_session() {
-		if ( isset( $_POST[ 'nonce_uncode_privacy_session' ] ) ) {
-			// Check nonce
-			if ( ! wp_verify_nonce( $_POST[ 'nonce_uncode_privacy_session' ], 'nonce-uncode-privacy-session' ) ) {
-				// Invalid nonce
-				wp_send_json_error(
-					array(
-						'message' => esc_html__( 'Invalid nonce.', 'uncode-privacy' )
-					)
-				);
-			}
-
-			// Session class, handles session data for users
-			if ( uncode_toolkit_privacy_logs_enabled() ) {
-				$session = new Uncode_Toolkit_Privacy_Session();
-			}
-
-			wp_send_json_success();
-
-		} else {
-			// Invalid data
-			wp_send_json_error(
-				array(
-					'message' => esc_html__( 'Empty data.', 'uncode-privacy' )
-				)
-			);
-		}
 	}
 }
 

@@ -35,6 +35,7 @@
   right: 0;
   bottom: 0;
   background-color: #ccc;
+  -webkit-transition: .4s;
   transition: .4s;
 }
 
@@ -46,6 +47,7 @@
   left: 4px;
   bottom: 4px;
   background-color: white;
+  -webkit-transition: .4s;
   transition: .4s;
 }
 
@@ -62,11 +64,13 @@
 }
 
 .uncode-privacy-wrap .uncode-privacy-switch input:checked + .uncode-privacy-slider:before {
-  transform: translateX(21px);
+  -webkit-transform: translateX(21px);
+          transform: translateX(21px);
 }
 
 .uncode-privacy-wrap .uncode-privacy-switch input:focus + .uncode-privacy-slider {
-  box-shadow: 0 0 1px #00b9eb;
+  -webkit-box-shadow: 0 0 1px #00b9eb;
+          box-shadow: 0 0 1px #00b9eb;
 }
 
 .uncode-privacy-wrap #TB_ajaxContent pre {
@@ -99,14 +103,6 @@
 .uncode-privacy-wrap #tabs .postbox .inside .tab-hosts .postbox .inside {
   padding-bottom: 0;
   background-color: #f9f9f9;
-}
-
-.uncode-privacy-wrap select {
-  width: 300px;
-}
-
-#ui-datepicker-div {
-  display: none;
 }
 
 @media screen and (max-width: 1024px) {

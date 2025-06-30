@@ -3,15 +3,9 @@
 
 	<div class="nav-tab-wrapper">
 		<?php foreach ( $tabs as $tab => $value ) : ?>
-			<?php if ( $tab === 'logs' ) : ?>
-				<a href="<?php echo esc_url( UNCODE_TOOLKIT_PRIVACY_LOGS_URL ); ?>" class="nav-tab nav-tab--logs">
-					<?php echo esc_html( $value ); ?>
-				</a>
-			<?php else : ?>
-				<a href="<?php echo '#' . $tab; ?>" class="nav-tab">
-					<?php echo esc_html( $value ); ?>
-				</a>
-			<?php endif; ?>
+			<a href="<?php echo '#' . $tab; ?>" class="nav-tab">
+				<?php echo esc_html( $value ); ?>
+			</a>
 		<?php endforeach; ?>
 	</div>
 
@@ -38,66 +32,6 @@
 								<?php foreach ( $pages as $page ): ?>
 									<option value="<?php echo esc_attr( $page->ID ) ?>" <?php selected( $privacy_policy_page, $page->ID ); ?>><?php echo esc_html( $page->post_title ); ?></option>
 								<?php endforeach ?>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">
-							<label for="uncode_privacy_privacy_banner_style"><?php esc_html_e( 'Privacy Banner Style', 'uncode-privacy' ) ?></label>
-						</th>
-						<td>
-							<?php $privacy_banner_style = get_option( 'uncode_privacy_banner_style', '' ); ?>
-							<select name="uncode_privacy_banner_style" id="uncode_privacy_banner_style">
-								<option value=""><?php esc_html_e( 'Default', 'uncode-privacy' ) ?></option>
-								<option value="float" <?php selected( $privacy_banner_style, "float" ); ?>><?php esc_html_e( 'Float Style', 'uncode-privacy' ) ?></option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">
-							<label for="uncode_privacy_banner_accept_button_type"><?php esc_html_e( 'Accept Button Type', 'uncode-privacy' ) ?></label>
-						</th>
-						<td>
-							<?php $privacy_banner_accept_button_type = get_option( 'uncode_privacy_banner_accept_button_type', '' ); ?>
-							<select name="uncode_privacy_banner_accept_button_type" id="uncode_privacy_banner_accept_button_type">
-								<option value=""><?php esc_html_e( 'Default', 'uncode-privacy' ) ?></option>
-								<option value="accept_all" <?php selected( $privacy_banner_accept_button_type, "accept_all" ); ?>><?php esc_html_e( 'Accept All Consents', 'uncode-privacy' ) ?></option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">
-							<label for="uncode_privacy_banner_show_reject"><?php esc_html_e( 'Show Reject Button', 'uncode-privacy' ) ?></label>
-						</th>
-						<td>
-							<?php $privacy_banner_show_reject = get_option( 'uncode_privacy_banner_show_reject', '' ); ?>
-							<select name="uncode_privacy_banner_show_reject" id="uncode_privacy_banner_show_reject">
-								<option value=""><?php esc_html_e( 'No', 'uncode-privacy' ) ?></option>
-								<option value="yes" <?php selected( $privacy_banner_show_reject, "yes" ); ?>><?php esc_html_e( 'Yes', 'uncode-privacy' ) ?></option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">
-							<label for="uncode_privacy_record_logs"><?php esc_html_e( 'Record Logs', 'uncode-privacy' ) ?></label>
-						</th>
-						<td>
-							<?php $record_logs = get_option( 'uncode_privacy_record_logs', '' ); ?>
-							<select name="uncode_privacy_record_logs" id="uncode_privacy_record_logs">
-								<option value=""><?php esc_html_e( 'No', 'uncode-privacy' ) ?></option>
-								<option value="yes" <?php selected( $record_logs, "yes" ); ?>><?php esc_html_e( 'Yes', 'uncode-privacy' ) ?></option>
-							</select>
-						</td>
-					</tr>
-					<tr class="record_logs_for_registered_users-row">
-						<th scope="row">
-							<label for="uncode_privacy_record_logs_for_registered_users"><?php esc_html_e( 'Record Type', 'uncode-privacy' ) ?></label>
-						</th>
-						<td>
-							<?php $record_logs_for_registered_users = get_option( 'uncode_privacy_record_logs_for_registered_users', '' ); ?>
-							<select name="uncode_privacy_record_logs_for_registered_users" id="uncode_privacy_record_logs_for_registered_users">
-								<option value=""><?php esc_html_e( 'All Visitors', 'uncode-privacy' ) ?></option>
-								<option value="yes" <?php selected( $record_logs_for_registered_users, "yes" ); ?>><?php esc_html_e( 'Registered Users Only', 'uncode-privacy' ) ?></option>
 							</select>
 						</td>
 					</tr>
@@ -145,7 +79,7 @@
 				<tbody>
 					<tr>
 						<th scope="row">
-							<label for="uncode_privacy_fallback"><?php esc_html_e( 'Consent Notice Text', 'uncode-privacy' ) ?></label>
+							<label for="uncode_privacy_fallback"><?php esc_html_e( 'Consent Notice Text', 'uncode' ) ?></label>
 						</th>
 						<td>
 							<?php $privacy_bar_content = get_option( 'uncode_privacy_fallback', ( esc_html__('This content is blocked. Please review your [uncode_privacy_box]Privacy Settings[/uncode_privacy_box].', 'uncode-privacy' ) ) ); ?>
@@ -165,7 +99,7 @@
 
 			<div id="consent-tabs">
 				<?php
-				$consent_types = uncode_toolkit_privacy_get_consent_types(); ?>
+				$consent_types = get_option( 'uncode_privacy_consent_types', array() ); ?>
 
 				<?php if ( ! empty( $consent_types ) ) : ?>
 					<?php foreach ( $consent_types as $consent_key => $consent ) : ?>
@@ -178,17 +112,7 @@
 										<th><label for="required-<?php echo esc_attr( $consent_key ); ?>"><?php esc_html_e( 'Required', 'uncode-privacy' ); ?></label></th>
 										<td>
 											<label class="uncode-privacy-switch">
-												<input type="checkbox" class="uncode-privacy-switch-checkbox" name="<?php echo esc_attr( 'uncode_privacy_consent_types' ); ?>[<?php echo esc_attr( $consent_key ); ?>][required]" <?php checked( esc_attr( $consent['required'] ), 1 ); ?> id="required-<?php echo esc_attr( $consent_key ); ?>">
-												<span class="uncode-privacy-slider round"></span>
-											</label>
-										</td>
-									</tr>
-									<tr>
-										<th><label for="default-state-<?php echo esc_attr( $consent_key ); ?>"><?php esc_html_e( 'Active by default', 'uncode-privacy' ); ?></label></th>
-										<td>
-											<label class="uncode-privacy-switch">
-												<?php $state_checked = isset( $consent['state'] ) && $consent['state'] ? true : false; ?>
-												<input type="checkbox" name="<?php echo esc_attr( 'uncode_privacy_consent_types' ); ?>[<?php echo esc_attr( $consent_key ); ?>][state]" <?php checked( $state_checked, 1 ); ?> id="default-state-<?php echo esc_attr( $consent_key ); ?>">
+												<input type="checkbox" name="<?php echo esc_attr( 'uncode_privacy_consent_types' ); ?>[<?php echo esc_attr( $consent_key ); ?>][required]" <?php checked( esc_attr( $consent['required'] ), 1 ); ?> id="required-<?php echo esc_attr( $consent_key ); ?>">
 												<span class="uncode-privacy-slider round"></span>
 											</label>
 										</td>

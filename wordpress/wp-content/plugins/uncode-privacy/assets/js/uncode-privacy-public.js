@@ -9,16 +9,6 @@
 	}
 
 	window.uncode_toolkit_privacy_has_consent = function( consent ) {
-		// Check consents that are on by default first
-		var consentSwitch = $('#gdpr-consent-' + consent);
-
-		if (consentSwitch.length) {
-			if (consentSwitch.attr('data-default-on') === 'true' && consentSwitch.prop('checked')) {
-				return true;
-			}
-		}
-
-		// Check saved cookies
 		if ( Cookies.get('uncode_privacy[consent_types]') ) {
 			var consentArray = JSON.parse( Cookies.get('uncode_privacy[consent_types]') );
 			if ( consentArray.indexOf( consent ) > -1 ) {
@@ -29,119 +19,22 @@
 		return false;
 	}
 
-	$(function () {
-		if (Uncode_Privacy_Parameters.logs_enabled === 'yes') {
-			$.ajax({
-				url: Uncode_Privacy_Parameters.ajax_url,
-				data: {
-					action: 'uncode_privacy_init_session',
-					nonce_uncode_privacy_session: Uncode_Privacy_Parameters.nonce_uncode_privacy_session,
-				},
-				type: 'post',
-				error: function (data) {
-					if (Uncode_Privacy_Parameters.enable_debug == true) {
-						// This console log is disabled by default
-						// So nothing is printed in a typical installation
-						//
-						// It can be enabled for debugging purposes setting
-						// the 'uncode_enable_debug_on_js_scripts' filter to true
-						console.log('Init session failed (1)');
-					}
-				},
-				success: function (response) {
-					if (response && response.success === false) {
-						if (Uncode_Privacy_Parameters.enable_debug == true) {
-							// This console log is disabled by default
-							// So nothing is printed in a typical installation
-							//
-							// It can be enabled for debugging purposes setting
-							// the 'uncode_enable_debug_on_js_scripts' filter to true
-							console.log('Init session failed (2)');
-						}
-					} else if (response && response.success === true) {
-						if (Uncode_Privacy_Parameters.enable_debug == true) {
-							// This console log is disabled by default
-							// So nothing is printed in a typical installation
-							//
-							// It can be enabled for debugging purposes setting
-							// the 'uncode_enable_debug_on_js_scripts' filter to true
-							console.log('Init session ok');
-						}
-					} else {
-						if (Uncode_Privacy_Parameters.enable_debug == true) {
-							// This console log is disabled by default
-							// So nothing is printed in a typical installation
-							//
-							// It can be enabled for debugging purposes setting
-							// the 'uncode_enable_debug_on_js_scripts' filter to true
-							console.log('Init session failed (3)');
-						}
-					}
-				}
-			});
-		}
+	$(function() {
 
 		if ( ! Cookies.get('uncode_privacy[privacy_bar]') ) {
-			if ($('.gdpr.gdpr-privacy-bar').hasClass('gdpr-privacy-bar--float')) {
-				$('.gdpr.gdpr-privacy-bar').show();
-			} else {
-				$('.gdpr.gdpr-privacy-bar').delay(1000).slideDown(600);
-			}
+			$('.gdpr.gdpr-privacy-bar').delay(1000).slideDown(600);
 		};
 
 		/**
 		 * This runs when user clicks on privacy preferences bar agree button.
+		 * It submits the form that is still hidden with the cookies and consent options.
 		 */
 		$(document).on('click', '.gdpr.gdpr-privacy-bar .gdpr-agreement', function() {
-			var _this = $(this);
-
-			$('#uncode_privacy_save_cookies_from_banner').val(true);
-			$('#uncode_privacy_save_cookies_from_banner_button').val('accept');
-
-			if (_this.hasClass('gdpr-submit-consent')) {
-				if (_this.hasClass('gdpr-submit-accept-all')) {
-					var switches = $('.gdpr-privacy-preferences-frm').find('.gdpr-consent-switch');
-
-					switches.each(function() {
-						var _this = $(this);
-						_this.prop('checked', true);
-					});
-				}
-				$('.gdpr-privacy-preferences-frm').submit();
-			} else {
-				var secureFlag = location.protocol === 'https:' ? true : false;
-				Cookies.set('uncode_privacy[privacy_bar]', 1, { expires: 365, secure: secureFlag });
-			}
-
+			// $('.gdpr.gdpr-privacy-bar').removeAttr('style'); // Fix slideDown
+			// console.log('remove style');
 			$('.gdpr.gdpr-privacy-bar').addClass('gdpr-hide-bar');
-		});
-
-		/**
-		 * This runs when user clicks on privacy preferences bar reject button.
-		 */
-		$(document).on('click', '.gdpr.gdpr-privacy-bar .gdpr-reject', function() {
-			var has_switch_on = false;
-			var switches = $('.gdpr-privacy-preferences-frm').find('.gdpr-consent-switch');
-
-			$('#uncode_privacy_save_cookies_from_banner').val(true);
-			$('#uncode_privacy_save_cookies_from_banner_button').val('reject');
-
-			switches.each(function() {
-				var _this = $(this);
-				if (_this.prop('checked')) {
-					has_switch_on = true;
-				}
-				_this.removeAttr("checked");
-			});
-
-			if (has_switch_on) {
-				$('.gdpr-privacy-preferences-frm').submit();
-			} else {
-				var secureFlag = location.protocol === 'https:' ? true : false;
-				Cookies.set('uncode_privacy[privacy_bar]', 1, { expires: 365, secure: secureFlag });
-			}
-
-			$('.gdpr.gdpr-privacy-bar').addClass('gdpr-hide-bar');
+			Cookies.set('uncode_privacy[privacy_bar]', 1, { expires: 365 });
+			// $('.gdpr-privacy-preferences-frm').submit(); // Old code
 		});
 
 		/**
@@ -149,8 +42,7 @@
 		 * This hides the privacy bar from showing after saving privacy preferences.
 		 */
 		$(document).on('submit', '.gdpr-privacy-preferences-frm', function() {
-			var secureFlag = location.protocol === 'https:' ? true : false;
-			Cookies.set('uncode_privacy[privacy_bar]', 1, { expires: 365, secure: secureFlag });
+			Cookies.set('uncode_privacy[privacy_bar]', 1, { expires: 365 });
 		});
 
 		/**
@@ -186,7 +78,7 @@
 		/**
 		 * Check switch via JS
 		 */
-		var switches = $('.gdpr-switch').find('input');
+		var switchs = $('.gdpr-switch').find('input');
 
 		function add_active_color(el) {
 			el.next().css('background', Uncode_Privacy_Parameters.accent_color);
@@ -196,7 +88,7 @@
 			el.next().css('background', '#ccc');
 		}
 
-		switches.each(function() {
+		switchs.each(function() {
 			var _this = $(this);
 
 			if ($('body').hasClass('logged-in')) {
@@ -215,7 +107,7 @@
 		});
 
 		if (!$('body').hasClass('logged-in')) {
-			switches.each(function() {
+			switchs.each(function() {
 				var _this = $(this);
 				var type = _this.attr('name') == 'user_consents[]' ? 'consent' : 'cookie';
 
@@ -233,18 +125,8 @@
 			});
 		}
 
-		/**
-		 * Change link color in banner text
-		 */
-		var banner_links = $('.gdpr-privacy-bar .gdpr-content').find('a');
 
-		banner_links.each(function() {
-			add_link_color($(this));
-		});
 
-		function add_link_color(el) {
-			el.css('color', Uncode_Privacy_Parameters.accent_color);
-		}
 	});
 
 })( jQuery );
