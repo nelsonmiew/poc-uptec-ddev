@@ -5,7 +5,11 @@ WP_VERSION="6.7.2"
 # Check if wordpress is already installed, if not, download and install it.
 # If it is installed, update to the specified version.
 # This is a workaround for the issue with ddev wp core download not working properly.
-if ddev wp core is-installed; then echo 'WordPress is installed, updating to ${WP_VERSION}...'; ddev wp core update --version=${WP_VERSION} --force; else echo 'WordPress not found, downloading version ${WP_VERSION}...'; ddev wp core download --version=${WP_VERSION} --path=wordpress --skip-themes; fi
+if ddev wp core is-installed; then 
+    echo "WordPress is installed, updating to ${WP_VERSION}..."; ddev wp core update --version=${WP_VERSION} --force; 
+else 
+    echo "WordPress not found, downloading version ${WP_VERSION}..."; ddev wp core download --version=${WP_VERSION} --path=wordpress --skip-themes; 
+fi
 read -p "Press Enter to continue..."
 
 #ddev wp core download --version=6.7.2  --force
